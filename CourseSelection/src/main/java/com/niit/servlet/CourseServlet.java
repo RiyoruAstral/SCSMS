@@ -20,7 +20,14 @@ public class CourseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
+        if(action == null){
+            System.out.println("no action!be careful!!!");
+            req.getRequestDispatcher("/index.html").forward(req,resp);
+        }
         switch (action){
             case "loading":
                 loading(req, resp);
