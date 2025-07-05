@@ -15,4 +15,5 @@ public class Teacher {
     private String tSex;
     private String tDuty;
     private int dno;
+    private int userId;
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="header.jsp"%>
+
 <div class="container-fluid page-body-wrapper full-page-wrapper">
     <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
         <div class="row flex-grow">
@@ -11,61 +12,61 @@
                     </div>
                     <h4>New here?</h4>
                     <h6 class="font-weight-light">Join us today! It takes only few steps</h6>
-                    <form class="pt-3">
+                    <form class="pt-3" role="form" action="/RegisterServlet" method="post">
                         <div class="form-group">
-                            <label>Username</label>
+                            <label>用户名</label>
                             <div class="input-group">
                                 <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
                         <i class="mdi mdi-account-outline text-primary"></i>
                       </span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg border-left-0" placeholder="Username">
+                                <input type="text" class="form-control form-control-lg border-left-0"
+                                       placeholder="Username" value="${param.username}" name="username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
+                            <label>学号</label>
                             <div class="input-group">
                                 <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
                         <i class="mdi mdi-email-outline text-primary"></i>
                       </span>
                                 </div>
-                                <input type="email" class="form-control form-control-lg border-left-0" placeholder="Email">
+                                <input type="text" class="form-control form-control-lg border-left-0"
+                                       placeholder="StudentID" name="studentId" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Country</label>
-                            <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                                <option>Country</option>
-                                <option>United States of America</option>
-                                <option>United Kingdom</option>
-                                <option>India</option>
-                                <option>Germany</option>
-                                <option>Argentina</option>
+                            <label>所属系</label>
+                            <select class="form-control form-control-lg" name="department" id="exampleFormControlSelect2" required="required">
+                                <option value="1">计算机系</option>
+                                <option value="2">电子系</option>
+                                <option value="3">自动化系</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
+                            <label>密码</label>
                             <div class="input-group">
                                 <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
                         <i class="mdi mdi-lock-outline text-primary"></i>
                       </span>
                                 </div>
-                                <input type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">
+                                <input type="password" class="form-control form-control-lg border-left-0"
+                                       id="exampleInputPassword" value="${param.password}" name="password" placeholder="Password" required="required">
                             </div>
                         </div>
                         <div class="mb-4">
                             <div class="form-check">
                                 <label class="form-check-label text-muted">
-                                    <input type="checkbox" class="form-check-input">
+                                    <input type="checkbox" class="form-check-input" required="required">
                                     I agree to all Terms & Conditions
                                 </label>
                             </div>
                         </div>
                         <div class="mt-3">
-                            <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="index.jsp">SIGN UP</a>
+                            <input type="submit" value="SIGN UP" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                         </div>
                         <div class="text-center mt-4 font-weight-light">
                             Already have an account? <a href="login.jsp" class="text-primary">Login</a>

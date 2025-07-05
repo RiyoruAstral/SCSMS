@@ -5,15 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
 @Data
-public class Student {
-    private int sno;
-    private String sName;
-    private String sSex;
-    private String sAge;
-    private int dno;
+public class User {
     private int userId;
+    private String username;
+    private String password;
+    private String userType;
+    private Date createdTime;
+    private Date lastLoginTime;
 }
