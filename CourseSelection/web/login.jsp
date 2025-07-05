@@ -10,7 +10,7 @@
                     </div>
                     <h4>Welcome back!</h4>
                     <h6 class="font-weight-light">Happy to see you again!</h6>
-                    <form class="pt-3">
+                    <form class="pt-3" role="form" action="/LoginServlet" method="post">
                         <div class="form-group">
                             <label for="exampleInputEmail">Username</label>
                             <div class="input-group">
@@ -19,7 +19,8 @@
                         <i class="mdi mdi-account-outline text-primary"></i>
                       </span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg border-left-0" id="exampleInputEmail" placeholder="Username">
+                                <input type="text" class="form-control form-control-lg border-left-0"
+                                       value="${param.username}" id="exampleInputEmail" placeholder="Username" name="username" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -30,20 +31,21 @@
                         <i class="mdi mdi-lock-outline text-primary"></i>
                       </span>
                                 </div>
-                                <input type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">
+                                <input type="password" class="form-control form-control-lg border-left-0"
+                                       value="${param.password}" id="exampleInputPassword" placeholder="Password" name="password" required="required">
                             </div>
                         </div>
                         <div class="my-2 d-flex justify-content-between align-items-center">
                             <div class="form-check">
                                 <label class="form-check-label text-muted">
-                                    <input type="checkbox" class="form-check-input">
+                                    <input type="checkbox" class="form-check-input" name="checkbox">
                                     Keep me signed in
                                 </label>
                             </div>
                             <a href="#" class="auth-link text-black">Forgot password?</a>
                         </div>
                         <div class="my-3">
-                            <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">LOGIN</a>
+                            <input type="submit" value="LOGIN" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                         </div>
                         <div class="mb-2 d-flex">
                             <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1">
