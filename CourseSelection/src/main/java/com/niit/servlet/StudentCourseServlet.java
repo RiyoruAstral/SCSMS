@@ -53,7 +53,7 @@ public class StudentCourseServlet extends HttpServlet {
             default:
                 System.out.println("no action!be careful!!!");
                 if (!resp.isCommitted()) {
-                    req.getRequestDispatcher("/index.html").forward(req, resp);
+                    req.getRequestDispatcher("/index.jsp").forward(req, resp);
                 }
         }
     }
@@ -76,33 +76,36 @@ public class StudentCourseServlet extends HttpServlet {
             List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySno(sno);
 
             for (StudentCourse sc : studentCourses) {
-                // 检查学年格式是否匹配
-                if (sc.getAcademicYear().equals(year + "-" + (Integer.parseInt(year) + 1))
-                        && sc.getSemester() == semester
-                        && week >= sc.getStartWeek()
-                        && week <= sc.getEndWeek()) {
+                // 修正学年格式匹配逻辑
+                String expectedAcademicYear = year + "-" + (Integer.parseInt(year) + 1);
+                boolean isAcademicYearMatch = sc.getAcademicYear().equals(expectedAcademicYear);
+                boolean isSemesterMatch = sc.getSemester() == semester;
+                boolean isWeekInRange = week >= sc.getStartWeek() && week <= sc.getEndWeek();
 
-                    // 处理单双周逻辑
+                // 基础条件：学年、学期、周次在范围内
+                if (isAcademicYearMatch && isSemesterMatch && isWeekInRange) {
+                    // 处理不同周次类型
                     if (sc.getWeekType().equals("双周") && week % 2 == 0) {
                         sendSC.add(sc);
                     } else if (sc.getWeekType().equals("单周") && week % 2 == 1) {
                         sendSC.add(sc);
-                    } else if (sc.getWeekType().equals("每周")) {
-                        // 添加每周都上的课程
+                    } else if (sc.getWeekType().equals("全周")) {
+                        // 全周课程直接添加
                         sendSC.add(sc);
                     }
                 }
             }
-            session.setAttribute("StudentCourses", sendSC);
 
-            // 重定向前检查响应是否已提交
+            session.setAttribute("StudentCourses", sendSC);
+            System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
+            System.out.println(sendSC);
+
             if (!resp.isCommitted()) {
                 resp.sendRedirect("/studentCourse.jsp");
-                return; // 确保重定向后不再执行后续代码
+                return;
             }
         }
 
-        // 处理非学生用户或其他异常情况
         if (!resp.isCommitted()) {
             resp.sendRedirect("/index.jsp");
         }

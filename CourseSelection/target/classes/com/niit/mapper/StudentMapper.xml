@@ -15,4 +15,9 @@
         WHERE sNo = #{sno}
             AND dNo = #{dno};
     </select>
+    <select id="findStudentByUserId" resultType="com.niit.pojo.Student">
+        SELECT *
+        FROM student
+        WHERE userId = #{userId};
+    </select>
 </mapper>

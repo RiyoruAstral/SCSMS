@@ -24,7 +24,15 @@ public class UserService {
         return this.getMapper().findUserByUsername(username);
     }
 
-    public Boolean createUser(String username,String password,String userType){return this.getMapper().createUser(username,password,userType);}
+    public Boolean createUser(String username,String password,String userType){
+        Boolean b = this.getMapper().createUser(username, password, userType);
+        if(b){
+            this.commit();
+        }else {
+            this.rollback();
+        }
+        return b;
+    }
 
     private UserMapper getMapper(){
         return sqlSession.getMapper(UserMapper.class);
