@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.StudentCourseMapper">
+
+    <select id="findStudentCourseBySno" resultType="com.niit.pojo.StudentCourse">
+        -- 查询学生完整课表（班级课程+选修课程）
+        SELECT
+            s.sNo,
+            s.sName,
+            cl.className,
+            cs.cName,
+            sch.dayOfWeek,
+            sch.startTime,
+            sch.duration,
+            sch.academicYear,
+            sch.semester,
+            sch.startWeek,
+            sch.endWeek,
+            CONCAT(sch.startWeek, '-', sch.endWeek, '周') AS weekRange,
+            sch.weekType,
+            CASE
+                WHEN cc.classId IS NOT NULL THEN '必修'
+                ELSE '选修'
+                END AS courseType
+        FROM
+            Student s
+                LEFT JOIN Class cl ON s.classId = cl.classId
+                -- 关联班级课程表（必修课程）
+                LEFT JOIN ClassCourse cc ON cl.classId = cc.classId
+                LEFT JOIN Course cs ON cc.cNo = cs.cNo
+                -- 关联选修课程表
+                LEFT JOIN CourseSelection cs_sel ON s.sNo = cs_sel.sNo AND cs.cNo = cs_sel.cNo
+                -- 关联课程时间
+                LEFT JOIN CourseSchedule sch ON cs.cNo = sch.cNo
+                LEFT JOIN Classroom cr ON sch.classroomId = cr.classroomId
+        WHERE
+            s.sNo = #{sno}  -- 替换为目标学生的学号
+        ORDER BY
+            FIELD(sch.dayOfWeek, '周一', '周二', '周三', '周四', '周五', '周六', '周日'),
+            sch.startTime;
+    </select>
+</mapper>

@@ -15,4 +15,5 @@ public class Course {
     private int dno;
     private int credit;
     private int capacity;
+    private String courseType;
 }

@@ -15,7 +15,7 @@
             <li class="nav-item ${pageContext.request.requestURI.endsWith('index.jsp') ? 'active' : ''}">
                 <a class="nav-link" href="index.jsp">
                     <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
+                    <span class="menu-title">首页</span>
                 </a>
             </li>
             <!-- 学生菜单 - 仅当用户类型为student时显示 -->
@@ -33,8 +33,8 @@
                             <li class="nav-item ${pageContext.request.requestURI.endsWith('selectCourse.jsp') ? 'active' : ''}">
                                 <a class="nav-link" href="pages/student/selectCourse.jsp">选课</a>
                             </li>
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('courseSchedule.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/student/courseSchedule.jsp">我的课表</a>
+                            <li class="nav-item ${pageContext.request.requestURI.endsWith('studentcourse.jsp') ? 'active' : ''}">
+                                <a class="nav-link" href="/StudentCourseServlet?action=loading&year=2023&semester=1&week=1">我的课表</a>
                             </li>
                             <li class="nav-item ${pageContext.request.requestURI.endsWith('exams.jsp') ? 'active' : ''}">
                                 <a class="nav-link" href="pages/student/exams.jsp">我的考试</a>
