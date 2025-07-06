@@ -16,6 +16,8 @@ public class StudentService {
     }
 
     public Student findStudentBySnoAndDepartment(int sno,int dno){return getMapper().findStudentBySnoAndDepartment(sno,dno);}
+    public Student findStudentByUserId(int userId){return this.getMapper().findStudentByUserId(userId);}
+
 
     public void updateStudentUserId(int sno, int userId){
         this.getMapper().updateStudentUserId(sno, userId);

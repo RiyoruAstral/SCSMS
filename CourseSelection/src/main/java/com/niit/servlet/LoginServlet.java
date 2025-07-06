@@ -30,7 +30,6 @@ public class LoginServlet extends HttpServlet {
         User user = new UserService().findUserByUsername(username);
         if(user == null){
             System.out.println("该用户尚未注册!");
-            HttpSession session = req.getSession();
             resp.sendRedirect("/register.jsp?username="+username+"&password="+password);
             return;
         }
