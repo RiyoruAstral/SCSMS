@@ -11,17 +11,7 @@ public class StudentService {
     MyBatisService service = MyBatisService.getInstance();
     private final StudentMapper mapper = service.getMapper(StudentMapper.class);
 
-    public Student findStudentBySnoAndDepartment(int sno,int dno){return mapper.findStudentBySnoAndDepartment(sno,dno);}
+    public Student findStudentBySno(String sno){return mapper.findStudentBySno(sno);}
     public Student findStudentByUserId(int userId){return mapper.findStudentByUserId(userId);}
-
-    public Boolean updateStudentUserId(int sno, int userId){
-        Boolean b = mapper.updateStudentUserId(sno, userId);
-        if(b){
-            service.commit();
-        }else {
-            service.rollback();
-        }
-        return b;
-    }
 
 }

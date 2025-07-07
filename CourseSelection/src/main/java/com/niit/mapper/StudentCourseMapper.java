@@ -6,5 +6,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StudentCourseMapper {
-    List<StudentCourse> findStudentCourseBySnoAndAcademicYear(@Param("sno") int sno,@Param("academicYear") int academicYear);
+    List<StudentCourse> findStudentCourseBySnoAndYear(@Param("sno") String sno,@Param("year") int year);
+    List<StudentCourse> findElectiveCourseBySnoDayTime(@Param("sno") String sno,@Param("dayOfWeek")int dayOfWeek,@Param("time")int time);
+
+    int insertSelectionCourse(@Param("sno")String sno,@Param("cno")String cno);
+    int dropSelectionCourse(@Param("sno")String sno,@Param("cno")String cno);
+
+    int updateSelectionCourse(@Param("cno")String cno);
+    int deleteSelectionCourse(@Param("cno")String cno);
+
 }

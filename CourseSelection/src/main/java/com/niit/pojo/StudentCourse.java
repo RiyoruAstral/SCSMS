@@ -10,20 +10,47 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class StudentCourse {
-    private int sno;
     private String sName;
-    private String className;
+    private String cno;
     private String cName;
-    private String dayOfWeek;
-    private int startTime;
-    private int duration;
-    private String academicYear;
-    private int semester;
+    private String tName;
+    private String dName;
+    private String year;
+    private int dayOfWeek;
+    private int time;
     private int startWeek;
     private int endWeek;
-    private String weekRange;
-    private String weekType;
-    private String tName;
-    private String classroom;
-    private String courseType;
+    private int semester;
+    private int credit;
+    private String flag;
+    private int remainPeople;
+
+    public StudentCourse(String sName, String cno, String cName, String tName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester) {
+        this.sName = sName;
+        this.cno = cno;
+        this.cName = cName;
+        this.tName = tName;
+        this.dName = dName;
+        this.year = year;
+        this.dayOfWeek = dayOfWeek;
+        this.time = time;
+        this.startWeek = startWeek;
+        this.endWeek = endWeek;
+        this.semester = semester;
+    }
+
+    public StudentCourse(String cno, String cName, int credit, String dName, String tName, int time, int startWeek, int endWeek, int dayOfWeek, int remainPeople, String flag) {
+        this.cno = cno;
+        this.cName = cName;
+        this.credit = credit;
+        this.dName = dName;
+        this.tName = tName;
+        this.time = time;
+        this.startWeek = startWeek;
+        this.endWeek = endWeek;
+        this.dayOfWeek = dayOfWeek;
+        this.remainPeople = remainPeople;
+        this.flag = flag;
+
+    }
 }

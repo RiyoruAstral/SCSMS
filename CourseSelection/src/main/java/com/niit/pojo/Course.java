@@ -10,11 +10,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class Course {
-    private int cno;
+    private String cno;
     private String cName;
-    private int dno;
+    private int year;
+    private int dayOfType;
+    private int time;
+    private int startWeek;
+    private int endWeek;
     private int credit;
-    private int capacity;
-    private String courseType;
-    private String courseCategory;
+    private String type;
+    private int semester;
+
 }

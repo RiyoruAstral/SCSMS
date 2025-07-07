@@ -20,17 +20,17 @@
                             <thead>
                             <tr>
                                 <th width="20%">课程性质</th>
-                                <th width="20%">应修总学分</th>
                                 <th width="20%">已获学分</th>
+                                <th width="20%">应修总学分</th>
                                 <th width="20%">已选</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td>专业选修课</td>
-                                <td>${SCR.requiredProfessionalElectiveCredits}</td>
-                                <td>${SCR.earnedProfessionalElectiveCredits}</td>
-                                <td>${SCR.selectedProfessionalElectiveCourses}</td>
+                                <td>${studentCredit.CNow}</td>
+                                <td>${studentCredit.CNeed}</td>
+                                <td></td>
                             </tr>
                             </tbody>
                         </table>
@@ -59,10 +59,10 @@
                                             <select class="form-control form-control-lg" name="startTime">
                                                 <option value="0">全部</option>
                                                 <option value="1">第一节-第二节</option>
-                                                <option value="3">第三节-第四节</option>
-                                                <option value="5">第五节-第六节</option>
-                                                <option value="7">第七节-第八节</option>
-                                                <option value="9">第九节-第十节</option>
+                                                <option value="2">第三节-第四节</option>
+                                                <option value="3">第五节-第六节</option>
+                                                <option value="4">第七节-第八节</option>
+                                                <option value="5">第九节-第十节</option>
                                             </select>
                                         </div>
                                     </td>
@@ -75,8 +75,7 @@
                             </table>
                             <c:choose>
                                 <c:when test="${title == 'null'}"><p class="hidden"></p></c:when>
-                                <c:when test="${title == 'fail'}"><p>选课失败！先修课未选</p></c:when>
-                                <c:when test="${title == 'success'}"><p>选课成功！</p></c:when>
+                                <c:when test="${title == 'fail' && title == 'error'}"><p>${msg}</p></c:when>
                             </c:choose>
                         </form>
                     </div>
@@ -114,23 +113,32 @@
                                         加入选课
                                     </th>
                                 </tr>
-                                <c:forEach var="c" items="${CSS}">
+                                <c:forEach var="c" items="${studentCourses}">
                                     <tr>
                                         <td>${c.cno}</td>
                                         <td>${c.CName}</td>
                                         <td>${c.credit}</td>
-                                        <td>${c.teacher}</td>
-                                        <td>${c.startTime}</td>
-                                        <td>${c.location}先修课:${c.prerequisite}</td>
-                                        <td>${c.remainingStudent}</td>
+                                        <td>${c.TName}</td>
+                                        <td>
+                                        <c:forEach var="css" items="${CourseSchedules}">
+                                            <c:if test="${c.dayOfWeek == css.dayOfWeek}">${css.day}</c:if>
+                                        </c:forEach>
+                                        <c:forEach var="css" items="${CourseSchedules}">
+                                            <c:if test="${c.time == css.startTime}">${css.sectionRange}</c:if>
+                                        </c:forEach>
+                                        </td>
+                                        <td>${c.DName}</td>
+                                        <td>${c.remainPeople}</td>
                                         <td>${c.flag}
                                             <form action="/CourseSelectionServlet" method="post">
                                                 <input type="hidden" name="dayOfWeek" value="0">
                                                 <input type="hidden" name="startTime" value="0">
-                                                <input type="hidden" name="action" value="${c.flag == '未选' ? 'select' : 'cancel'}">
+                                                <input type="hidden" name="year" value="2025">
+                                                <input type="hidden" name="semester" value="1">
+                                                <input type="hidden" name="action" value="${c.flag == '未选择' ? 'select' : 'cancel'}">
                                                 <input type="hidden" name="cno" value="${c.cno}">
-                                                <button type="submit" class="btn btn-sm ${(c.flag == '未选' && c.remainingStudent == 0) ? 'disabled' : '' } ${c.flag == '未选' ? 'btn-primary' : 'btn-danger'}">
-                                                        ${c.flag == '未选' ? '选择' : '取消'}
+                                                <button type="submit" class="btn btn-sm ${(c.flag == '未选择' && c.remainPeople == 0) ? 'disabled' : '' } ${c.flag == '未选择' ? 'btn-primary' : 'btn-danger'}">
+                                                        ${c.flag}
                                                 </button>
                                             </form>
                                         </td>

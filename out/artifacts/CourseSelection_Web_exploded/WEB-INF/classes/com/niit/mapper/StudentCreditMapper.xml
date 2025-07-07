@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.StudentCreditMapper">
+
+    <select id="findStudentCreditBySno" resultType="com.niit.pojo.StudentCredit">
+        SELECT s.sno, SUM(c.credit) as cNow, ce.need AS cNeed
+        FROM students s
+                 INNER JOIN course_selection cs ON s.sno = cs.sno
+                 INNER JOIN courses c ON cs.cno = c.cno
+                 INNER JOIN completionrate ce on ce.sno = s.sno
+        WHERE c.type = '选修'
+            AND s.sno = #{sno}
+        GROUP BY s.sno
+    </select>
+</mapper>

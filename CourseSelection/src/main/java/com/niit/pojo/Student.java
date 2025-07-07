@@ -10,10 +10,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class Student {
-    private int sno;
+    private String sno;
     private String sName;
-    private String sSex;
-    private String sAge;
-    private int dno;
-    private int userId;
 }

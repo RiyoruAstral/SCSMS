@@ -15,13 +15,14 @@
                     <div class="card-body">
                         <h4 class="card-title">班级</h4>
                         <p class="card-description"></p>
-                            <form action="/StudentCourseServlet?action=loading" role="form" method="post">
+                            <form action="/StudentCourseServlet" role="form" method="post">
+                                <input type="hidden" name="action" value="loading">
                                 <div class="form-group">
                                     <label>学年度</label>
                                     <select class="form-control form-control-lg" name="year">
-                                        <option value="2023">2023-2024</option>
-                                        <option value="2024">2024-2025</option>
                                         <option value="2025">2025-2026</option>
+                                        <option value="2024">2024-2025</option>
+                                        <option value="2023">2023-2024</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -97,12 +98,12 @@
                                     </td>
 
                                     <!-- 使用中文星期几循环 -->
-                                    <c:forEach var="dayOfWeek" items="${['周一', '周二', '周三', '周四', '周五', '周六', '周日']}">
+                                    <c:forEach var="dayOfWeek" items="${[1,2,3,4,5,6,7]}">
                                         <td>
                                             <c:forEach items="${StudentCourses}" var="sc">
                                                 <!-- 判断课程时间和节次是否匹配 -->
-                                                <c:if test="${sc.startTime == course.startTime && sc.dayOfWeek == dayOfWeek}">
-                                                    ${sc.CName}@${sc.classroom}(${sc.startWeek}-${sc.endWeek})
+                                                <c:if test="${sc.time == course.startTime && sc.dayOfWeek == dayOfWeek}">
+                                                    ${sc.CName}@${sc.DName}(${sc.startWeek}-${sc.endWeek})
                                                     ${sc.TName}
                                                 </c:if>
                                             </c:forEach>

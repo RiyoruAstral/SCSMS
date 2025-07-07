@@ -43,6 +43,7 @@ public class StudentCourseServlet extends HttpServlet {
 
         switch (action) {
             case "loading":
+                System.out.println("loading");
                 loading(req, resp);
                 break;
             case "update":
@@ -58,56 +59,45 @@ public class StudentCourseServlet extends HttpServlet {
     }
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        //用户信息
+        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
         String userType = new ServletUtil().getUserTypeFromSeesion(req);
-
+        System.out.println(sno);
+        System.out.println(userType);
+        //时间信息
         int year = Integer.parseInt(req.getParameter("year"));
         int semester = Integer.parseInt(req.getParameter("semester"));
         int week = Integer.parseInt(req.getParameter("week"));
-
+        System.out.println(year);
+        System.out.println(semester);
+        System.out.println(week);
         // 初始化sendSC列表
         List<StudentCourse> sendSC = new ArrayList<>();
-
+        //如果当前是学生
         if (Objects.equals(userType, "student")) {
-            List<CourseSchedule> courseSchedules = new ArrayList<>();
-            courseSchedules.add(new CourseSchedule("第一节 - 第二节",1));
-            courseSchedules.add(new CourseSchedule("第三节 - 第四节",3));
-            courseSchedules.add(new CourseSchedule("第五节 - 第六节",5));
-            courseSchedules.add(new CourseSchedule("第七节 - 第八节",7));
-            courseSchedules.add(new CourseSchedule("第九节 - 第十节",9));
-
-            List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndAcademicYear(sno,year);
+            //获取时间映射表
+            List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
+            req.setAttribute("CourseSchedules",courseSchedules);
+            //获取课程表
+            List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndYear(sno,year);
             if(studentCourses == null){
                 resp.sendRedirect("/index.jsp");
                 return;
             }
 
-            for (StudentCourse sc : studentCourses) {
-                // 修正学年格式匹配逻辑
-                String expectedAcademicYear = year + "-" + (year + 1);
-                boolean isAcademicYearMatch = sc.getAcademicYear().equals(expectedAcademicYear);
-                boolean isSemesterMatch = sc.getSemester() == semester;
-                boolean isWeekInRange = week >= sc.getStartWeek() && week <= sc.getEndWeek();
-
-                // 基础条件：学年、学期、周次在范围内
-                if (isAcademicYearMatch && isSemesterMatch && isWeekInRange) {
-                    // 处理不同周次类型
-                    if (sc.getWeekType().equals("双周") && week % 2 == 0) {
-                        sendSC.add(sc);
-                    } else if (sc.getWeekType().equals("单周") && week % 2 == 1) {
-                        sendSC.add(sc);
-                    } else if (sc.getWeekType().equals("全周")) {
-                        // 全周课程直接添加
-                        sendSC.add(sc);
-                    }
+            for(StudentCourse c : studentCourses){
+                if(year == Integer.parseInt(c.getYear()) && semester == c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
+                    sendSC.add(c);
                 }
             }
 
-            req.setAttribute("StudentCourses", sendSC);
-            req.setAttribute("CourseSchedules",courseSchedules);
-
             System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
             System.out.println(sendSC);
+
+
+            req.setAttribute("StudentCourses", sendSC);
+
+
             req.getRequestDispatcher("/student/scheduleView.jsp").forward(req,resp);
             return;
         }

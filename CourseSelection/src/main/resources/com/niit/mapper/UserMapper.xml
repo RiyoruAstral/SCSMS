@@ -4,23 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.UserMapper">
     <insert id="createUser">
-        INSERT INTO user(username, password, userType, createdTime)
-        VALUES(
-               #{username},
-               #{password},
-               #{userType},
-                now()
-              );
+        INSERT INTO users (username, password, role, otherNo)
+        VALUES (#{username}, #{password}, #{userType}, #{otherNo});
     </insert>
 
     <select id="selectUsers" resultType="com.niit.pojo.User">
         SELECT *
-        FROM user;
+        FROM users;
     </select>
     <select id="findUserByUsername" resultType="com.niit.pojo.User">
         SELECT *
-        FROM user
+        FROM users
         WHERE username = #{username};
     </select>
+    <update id="updateStudentUserId">
+        UPDATE users
+        SET userId = #{userId}
+        WHERE otherNo = #{sno}
+    </update>
 
 </mapper>
