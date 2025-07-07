@@ -1,11 +1,12 @@
 package com.niit.servlet;
 
 import com.niit.pojo.Course;
+import com.niit.pojo.CourseSchedule;
 import com.niit.pojo.StudentCourse;
-import com.niit.service.CourseService;
 import com.niit.service.StudentCourseService;
 import com.niit.service.StudentService;
 import com.niit.service.UserService;
+import com.niit.util.ServletUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @WebServlet("/StudentCourseServlet")
 public class StudentCourseServlet extends HttpServlet {
@@ -59,11 +58,10 @@ public class StudentCourseServlet extends HttpServlet {
     }
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        HttpSession session = req.getSession();
-        String username = (String) session.getAttribute("username");
-        String userType = (String) session.getAttribute("userType");
+        int sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String userType = new ServletUtil().getUserTypeFromSeesion(req);
 
-        String year = req.getParameter("year");
+        int year = Integer.parseInt(req.getParameter("year"));
         int semester = Integer.parseInt(req.getParameter("semester"));
         int week = Integer.parseInt(req.getParameter("week"));
 
@@ -71,13 +69,22 @@ public class StudentCourseServlet extends HttpServlet {
         List<StudentCourse> sendSC = new ArrayList<>();
 
         if (Objects.equals(userType, "student")) {
-            int userId = new UserService().findUserByUsername(username).getUserId();
-            int sno = new StudentService().findStudentByUserId(userId).getSno();
-            List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySno(sno);
+            List<CourseSchedule> courseSchedules = new ArrayList<>();
+            courseSchedules.add(new CourseSchedule("第一节 - 第二节",1));
+            courseSchedules.add(new CourseSchedule("第三节 - 第四节",3));
+            courseSchedules.add(new CourseSchedule("第五节 - 第六节",5));
+            courseSchedules.add(new CourseSchedule("第七节 - 第八节",7));
+            courseSchedules.add(new CourseSchedule("第九节 - 第十节",9));
+
+            List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndAcademicYear(sno,year);
+            if(studentCourses == null){
+                resp.sendRedirect("/index.jsp");
+                return;
+            }
 
             for (StudentCourse sc : studentCourses) {
                 // 修正学年格式匹配逻辑
-                String expectedAcademicYear = year + "-" + (Integer.parseInt(year) + 1);
+                String expectedAcademicYear = year + "-" + (year + 1);
                 boolean isAcademicYearMatch = sc.getAcademicYear().equals(expectedAcademicYear);
                 boolean isSemesterMatch = sc.getSemester() == semester;
                 boolean isWeekInRange = week >= sc.getStartWeek() && week <= sc.getEndWeek();
@@ -96,18 +103,14 @@ public class StudentCourseServlet extends HttpServlet {
                 }
             }
 
-            session.setAttribute("StudentCourses", sendSC);
+            req.setAttribute("StudentCourses", sendSC);
+            req.setAttribute("CourseSchedules",courseSchedules);
+
             System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
             System.out.println(sendSC);
-
-            if (!resp.isCommitted()) {
-                resp.sendRedirect("/studentCourse.jsp");
-                return;
-            }
+            req.getRequestDispatcher("/student/scheduleView.jsp").forward(req,resp);
+            return;
         }
-
-        if (!resp.isCommitted()) {
-            resp.sendRedirect("/index.jsp");
-        }
+        resp.sendRedirect("/index.jsp");
     }
 }

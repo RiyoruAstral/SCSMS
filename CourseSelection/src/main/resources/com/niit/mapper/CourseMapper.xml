@@ -8,4 +8,25 @@
         SELECT *
         FROM course;
     </select>
+    <select id="findPreCourseBySnoAndCno" resultType="com.niit.pojo.Course">
+        -- 输入：学生sNo和目标课程cNo
+        SELECT c.cNo,c.cName,c.dNo,c.credit,c.capacity,c.courseType,c.courseCategory
+        FROM prerequisite p
+                 JOIN course c ON p.prerequisiteId = c.cNo
+        WHERE p.courseId = #{cno}  -- 目标课程cNo
+          AND p.prerequisiteId NOT IN (
+            SELECT cs.cNo
+            FROM courseselection cs
+            WHERE cs.sNo = #{sno}  -- 学生sNo
+        );
+    </select>
+    <select id="findCourseBySnoAndCno" resultType="com.niit.pojo.Course">
+        SELECT c.cNo,c.cName,c.dNo,c.credit,c.capacity,c.courseType,c.courseCategory
+        FROM student s
+                 LEFT JOIN courseselection cs ON s.sNo = cs.sNo
+                 LEFT JOIN course c ON cs.cNo = c.cNo
+        WHERE
+            s.sNo = #{sno}
+          AND c.cNo = #{cno};
+    </select>
 </mapper>

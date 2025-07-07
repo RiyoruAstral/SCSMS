@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.StudentCourseMapper">
 
-    <select id="findStudentCourseBySno" resultType="com.niit.pojo.StudentCourse">
+    <select id="findStudentCourseBySnoAndAcademicYear" resultType="com.niit.pojo.StudentCourse">
         -- 查询学生完整课表（班级课程+选修课程）
         SELECT
             s.sNo,
@@ -20,6 +20,8 @@
             sch.endWeek,
             CONCAT(sch.startWeek, '-', sch.endWeek, '周') AS weekRange,
             sch.weekType,
+            th.tName,
+            cm.location AS classroom,
             CASE
                 WHEN cc.classId IS NOT NULL THEN '必修'
                 ELSE '选修'
@@ -35,8 +37,12 @@
                 -- 关联课程时间
                 LEFT JOIN CourseSchedule sch ON cs.cNo = sch.cNo
                 LEFT JOIN Classroom cr ON sch.classroomId = cr.classroomId
+                LEFT JOIN teaching tg ON cs.cNo = tg.cNo
+                LEFT JOIN teacher th ON tg.tNo = th.tNo
+                LEFT JOIN classroom cm ON sch.classroomId = cm.classroomId
         WHERE
             s.sNo = #{sno}  -- 替换为目标学生的学号
+          AND sch.academicYear = #{academicYear}
         ORDER BY
             FIELD(sch.dayOfWeek, '周一', '周二', '周三', '周四', '周五', '周六', '周日'),
             sch.startTime;

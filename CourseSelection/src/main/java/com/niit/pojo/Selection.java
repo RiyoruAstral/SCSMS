@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @Data
-public class CourseSelection {
+public class Selection {
     private int sno;
     private int cno;
     private double grade;
