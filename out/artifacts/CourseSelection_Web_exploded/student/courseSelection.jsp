@@ -34,7 +34,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <form action="/CourseSelectionServlet" role="form" method="post">
+                        <form action="/CourseSelectionServlet?action=loading" role="form" method="post">
                             <table width="100%">
                                 <tbody>
                                 <tr>
@@ -67,11 +67,17 @@
                                         </div>
                                     </td>
                                     <td width="20%">
+                                        <input type="hidden" name="title" value="null">
                                         <input type="submit" value="GO" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <c:choose>
+                                <c:when test="${title == 'null'}"><p class="hidden"></p></c:when>
+                                <c:when test="${title == 'fail'}"><p>选课失败！先修课未选</p></c:when>
+                                <c:when test="${title == 'success'}"><p>选课成功！</p></c:when>
+                            </c:choose>
                         </form>
                     </div>
                 </div>
@@ -117,7 +123,17 @@
                                         <td>${c.startTime}</td>
                                         <td>${c.location}先修课:${c.prerequisite}</td>
                                         <td>${c.remainingStudent}</td>
-                                        <td>${c.flag}</td>
+                                        <td>${c.flag}
+                                            <form action="/CourseSelectionServlet" method="post">
+                                                <input type="hidden" name="dayOfWeek" value="0">
+                                                <input type="hidden" name="startTime" value="0">
+                                                <input type="hidden" name="action" value="${c.flag == '未选' ? 'select' : 'cancel'}">
+                                                <input type="hidden" name="cno" value="${c.cno}">
+                                                <button type="submit" class="btn btn-sm ${(c.flag == '未选' && c.remainingStudent == 0) ? 'disabled' : '' } ${c.flag == '未选' ? 'btn-primary' : 'btn-danger'}">
+                                                        ${c.flag == '未选' ? '选择' : '取消'}
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 </c:forEach>
 

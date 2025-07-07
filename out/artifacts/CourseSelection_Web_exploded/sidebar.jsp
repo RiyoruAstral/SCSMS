@@ -29,7 +29,7 @@
                 <div class="collapse" id="student-menu">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('selectCourse.jsp') ? 'active' : ''}">
-                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/CourseSelectionServlet?dayOfWeek=0&startTime=0">选课</a>
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&title=null">选课</a>
                         </li>
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('studentcourse.jsp') ? 'active' : ''}">
                             <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/StudentCourseServlet?action=loading&year=2023&semester=1&week=1">我的课表</a>

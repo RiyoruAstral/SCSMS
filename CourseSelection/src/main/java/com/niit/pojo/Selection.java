@@ -9,12 +9,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @Data
-public class Course {
+public class Selection {
+    private int sno;
     private int cno;
-    private String cName;
-    private int dno;
-    private int credit;
-    private int capacity;
-    private String courseType;
-    private String courseCategory;
+    private double grade;
 }
