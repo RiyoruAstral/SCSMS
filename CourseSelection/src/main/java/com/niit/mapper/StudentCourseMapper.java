@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StudentCourseMapper {
-    List<StudentCourse> findStudentCourseBySno(@Param("sno") int sno);
+    List<StudentCourse> findStudentCourseBySnoAndAcademicYear(@Param("sno") int sno,@Param("academicYear") int academicYear);
 }

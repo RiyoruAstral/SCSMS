@@ -19,56 +19,50 @@
                 </a>
             </li>
             <!-- 学生菜单 - 仅当用户类型为student时显示 -->
-            <c:if test="${sessionScope.userType == 'student'}">
-                <li class="nav-item ${pageContext.request.requestURI.contains('student') ? 'active' : ''}">
-                    <a class="nav-link" data-toggle="collapse" href="#student-menu"
-                       aria-expanded="${pageContext.request.requestURI.contains('student')}"
-                       aria-controls="student-menu">
-                        <i class="mdi mdi-circle-outline menu-icon"></i>
-                        <span class="menu-title">学生课程管理</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse ${pageContext.request.requestURI.contains('student') ? 'show' : ''}" id="student-menu">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('selectCourse.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/student/selectCourse.jsp">选课</a>
-                            </li>
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('studentcourse.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="/StudentCourseServlet?action=loading&year=2023&semester=1&week=1">我的课表</a>
-                            </li>
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('exams.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/student/exams.jsp">我的考试</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </c:if>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#student-menu" aria-controls="student-menu">
+                    <i class="mdi mdi-circle-outline menu-icon"></i>
+                    <span class="menu-title">学生课程管理</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="student-menu">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('selectCourse.jsp') ? 'active' : ''}">
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/CourseSelectionServlet?dayOfWeek=0&startTime=0">选课</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('studentcourse.jsp') ? 'active' : ''}">
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/StudentCourseServlet?action=loading&year=2023&semester=1&week=1">我的课表</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('exams.jsp') ? 'active' : ''}">
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="pages/student/exams.jsp">我的考试</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
 
             <!-- 教师菜单 - 仅当用户类型为teacher时显示 -->
-            <c:if test="${sessionScope.userType == 'teacher'}">
-                <li class="nav-item ${pageContext.request.requestURI.contains('teacher') ? 'active' : ''}">
-                    <a class="nav-link" data-toggle="collapse" href="#teacher-menu"
-                       aria-expanded="${pageContext.request.requestURI.contains('teacher')}"
-                       aria-controls="teacher-menu">
-                        <i class="mdi mdi-circle-outline menu-icon"></i>
-                        <span class="menu-title">教师课程管理</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse ${pageContext.request.requestURI.contains('teacher') ? 'show' : ''}" id="teacher-menu">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('myCourses.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/teacher/myCourses.jsp">我的课程</a>
-                            </li>
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('courseSettings.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/teacher/courseSettings.jsp">课程设置</a>
-                            </li>
-                            <li class="nav-item ${pageContext.request.requestURI.endsWith('scheduleAdjustment.jsp') ? 'active' : ''}">
-                                <a class="nav-link" href="pages/teacher/scheduleAdjustment.jsp">课表调整</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </c:if>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#teacher-menu" aria-controls="teacher-menu">
+                    <i class="mdi mdi-circle-outline menu-icon"></i>
+                    <span class="menu-title">教师课程管理</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="teacher-menu">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('myCourses.jsp') ? 'active' : ''} ">
+                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="pages/teacher/myCourses.jsp">我的课程</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('courseSettings.jsp') ? 'active' : ''} ">
+                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="pages/teacher/courseSettings.jsp">课程设置</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('scheduleAdjustment.jsp') ? 'active' : ''} ">
+                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="pages/teacher/scheduleAdjustment.jsp">课表调整</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="nav-item ${pageContext.request.requestURI.contains('forms') ? 'active' : ''}">
                 <a class="nav-link" href="pages/forms/basic_elements.html">

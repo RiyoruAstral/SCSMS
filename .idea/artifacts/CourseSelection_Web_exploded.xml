@@ -19,7 +19,6 @@
           <element id="library" level="project" name="Maven: org.json:json:20231013" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.5.19" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.38" />
-          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
         </element>
       </element>
     </root>

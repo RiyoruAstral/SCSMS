@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.StudnetCompletionRateMapper">
+
+    <select id="findStudnetCompletionRateBySno" resultType="com.niit.pojo.StudnetCompletionRate">
+        -- 查询指定学生的专业选修课已获学分、应修学分及已选课程数量
+        SELECT
+            s.sNo,
+            s.sName,
+            d.dName AS department,
+            -- 专业选修课已获学分
+            SUM(CASE WHEN c.courseType = '选修' AND c.courseCategory = '专业选修' AND cs.grade >= 60 THEN c.credit ELSE 0 END) AS earnedProfessionalElectiveCredits,
+            -- 专业选修课应修学分
+            dr.professionalElectiveRequired AS requiredProfessionalElectiveCredits,
+            -- 已选专业选修课数量（包含未及格和未评分的课程）
+            COUNT(CASE WHEN c.courseType = '选修' AND c.courseCategory = '专业选修' THEN c.cNo ELSE NULL END) AS selectedProfessionalElectiveCourses,
+            -- 已选且及格的专业选修课数量
+            COUNT(CASE WHEN c.courseType = '选修' AND c.courseCategory = '专业选修' AND cs.grade >= 60 THEN c.cNo ELSE NULL END) AS passedProfessionalElectiveCourses
+        FROM
+            student s
+                JOIN
+            department d ON s.dNo = d.dNo
+                JOIN
+            dept_course_requirement dr ON s.dNo = dr.dNo
+                JOIN
+            courseselection cs ON s.sNo = cs.sNo
+                JOIN
+            course c ON cs.cNo = c.cNo
+        WHERE
+            s.sNo = #{sno}  -- 替换为目标学生的学号
+        GROUP BY
+            s.sNo, s.sName, d.dName, dr.professionalElectiveRequired;
+    </select>
+</mapper>

@@ -1,47 +1,33 @@
 package com.niit.service;
 
+import com.niit.mapper.StudentMapper;
 import com.niit.mapper.UserMapper;
 import com.niit.pojo.User;
+import com.niit.util.MyBatisService;
 import com.niit.util.MybatisUtil;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
 public class UserService {
-    private static SqlSession sqlSession = null;
-    static {
-        try {
-            sqlSession = MybatisUtil.getSqlSession();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    MyBatisService service = MyBatisService.getInstance();
+    private final UserMapper mapper = service.getMapper(UserMapper.class);
 
     public List<User> selectUsers(){
-        return this.getMapper().selectUsers();
+        return mapper.selectUsers();
     }
     public User findUserByUsername(String username){
-        return this.getMapper().findUserByUsername(username);
+        return mapper.findUserByUsername(username);
     }
 
     public Boolean createUser(String username,String password,String userType){
-        Boolean b = this.getMapper().createUser(username, password, userType);
+        Boolean b = mapper.createUser(username, password, userType);
         if(b){
-            this.commit();
+            service.commit();
         }else {
-            this.rollback();
+            service.rollback();
         }
         return b;
-    }
-
-    private UserMapper getMapper(){
-        return sqlSession.getMapper(UserMapper.class);
-    }
-
-    private void commit(){
-        sqlSession.commit();
-    }
-    private void rollback(){
-        sqlSession.rollback();
     }
 }

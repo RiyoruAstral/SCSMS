@@ -23,5 +23,7 @@ public class StudentCourse {
     private int endWeek;
     private String weekRange;
     private String weekType;
+    private String tName;
+    private String classroom;
     private String courseType;
 }
