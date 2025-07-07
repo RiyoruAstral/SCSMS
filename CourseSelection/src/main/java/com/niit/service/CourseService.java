@@ -16,10 +16,8 @@ public class CourseService {
     private final CourseMapper mapper = service.getMapper(CourseMapper.class);
 
 
-    public List<Course> selectCourses(){return mapper.selectCourses();}
-    public Course findCourseBySnoAndCno(int sno, int cno){
-        return mapper.findCourseBySnoAndCno(sno, cno);
-    }
-    public Course findPreCourseBysNoAndCno(int sno,int cno){return mapper.findPreCourseBySnoAndCno(sno,cno);};
+    public List<Course> findElectiveCourse(){return mapper.findElectiveCourse();}
+    public List<String> findSelectionCourse(String sno){return mapper.findSelectionCourse(sno);}
+
 
 }

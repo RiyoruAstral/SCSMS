@@ -3,48 +3,70 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.StudentCourseMapper">
+    <insert id="insertSelectionCourse">
+        INSERT INTO course_selection (sno, cno) VALUES (#{sno}, #{cno});
+    </insert>
+    <update id="updateSelectionCourse">
+        UPDATE courses c
+        SET c.select_people = c.select_people + 1
+        WHERE c.cno = #{cno};
+    </update>
+    <update id="deleteSelectionCourse">
+        UPDATE courses c
+        SET c.select_people = c.select_people - 1
+        WHERE c.cno = #{cno};
+    </update>
+    <delete id="dropSelectionCourse">
+        DELETE FROM course_selection sc
+        WHERE sc.cno = #{cno}
+        AND sc.sno = #{sno}
+    </delete>
 
-    <select id="findStudentCourseBySnoAndAcademicYear" resultType="com.niit.pojo.StudentCourse">
-        -- 查询学生完整课表（班级课程+选修课程）
+    <select id="findStudentCourseBySnoAndYear" resultType="com.niit.pojo.StudentCourse">
         SELECT
-            s.sNo,
-            s.sName,
-            cl.className,
-            cs.cName,
-            sch.dayOfWeek,
-            sch.startTime,
-            sch.duration,
-            sch.academicYear,
-            sch.semester,
-            sch.startWeek,
-            sch.endWeek,
-            CONCAT(sch.startWeek, '-', sch.endWeek, '周') AS weekRange,
-            sch.weekType,
-            th.tName,
-            cm.location AS classroom,
-            CASE
-                WHEN cc.classId IS NOT NULL THEN '必修'
-                ELSE '选修'
-                END AS courseType
+            s.sname, c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester
         FROM
-            Student s
-                LEFT JOIN Class cl ON s.classId = cl.classId
-                -- 关联班级课程表（必修课程）
-                LEFT JOIN ClassCourse cc ON cl.classId = cc.classId
-                LEFT JOIN Course cs ON cc.cNo = cs.cNo
-                -- 关联选修课程表
-                LEFT JOIN CourseSelection cs_sel ON s.sNo = cs_sel.sNo AND cs.cNo = cs_sel.cNo
-                -- 关联课程时间
-                LEFT JOIN CourseSchedule sch ON cs.cNo = sch.cNo
-                LEFT JOIN Classroom cr ON sch.classroomId = cr.classroomId
-                LEFT JOIN teaching tg ON cs.cNo = tg.cNo
-                LEFT JOIN teacher th ON tg.tNo = th.tNo
-                LEFT JOIN classroom cm ON sch.classroomId = cm.classroomId
+            students s
+                JOIN course_selection cs ON s.sno = cs.sno
+                JOIN courses c ON cs.cno = c.cno
+                JOIN teaching tch ON c.cno = tch.cno
+                JOIN teachers t ON tch.tno = t.tno
+                JOIN course_locations cl ON c.cno = cl.cno
+                JOIN locations l ON cl.dno = l.dno
         WHERE
-            s.sNo = #{sno}  -- 替换为目标学生的学号
-          AND sch.academicYear = #{academicYear}
-        ORDER BY
-            FIELD(sch.dayOfWeek, '周一', '周二', '周三', '周四', '周五', '周六', '周日'),
-            sch.startTime;
+            s.sno = #{sno}
+          AND c.year = #{year};
+    </select>
+    <select id="findElectiveCourseBySnoDayTime" resultType="com.niit.pojo.StudentCourse">
+        SELECT c.cno,
+               c.cname,
+               c.credit,
+               l.dname,
+               t.tname,
+               c.time,
+               c.startWeek,
+               c.endWeek,
+               c.dayOfWeek,
+               c.total_people - c.select_people as remainPeople,
+               IF(cs.sno IS NOT NULL, '已选择', '未选择') AS flag
+        FROM courses c
+                 LEFT JOIN
+             course_selection cs ON c.cno = cs.cno AND cs.sno = #{sno} -- 替换为具体sno
+                 LEFT JOIN
+             course_locations cl ON c.cno = cl.cno
+                 LEFT JOIN
+             locations l ON cl.dno = l.dno
+                 LEFT JOIN
+             teaching tch ON c.cno = tch.cno
+                 LEFT JOIN
+             teachers t ON tch.tno = t.tno
+        WHERE c.type = '选修' -- 筛选选修课
+        <if test="dayOfWeek > 0">
+            AND c.dayOfWeek = #{dayOfWeek}
+        </if>
+        <if test="time > 0">
+            AND c.time = #{time}
+        </if>
+        ORDER BY c.cno;
     </select>
 </mapper>

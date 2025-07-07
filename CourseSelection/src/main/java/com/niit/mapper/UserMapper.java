@@ -9,5 +9,6 @@ public interface UserMapper {
     List<User> selectUsers();
     User findUserByUsername(@Param("username") String username);
 
-    Boolean createUser(@Param("username") String username,@Param("password") String password,@Param("userType") String userType);
+    Boolean createUser(@Param("username") String username,@Param("password") String password,@Param("userType") String userType,@Param("otherNo") String otherNo);
+    Boolean updateStudentUserId(@Param("sno") int sno,@Param("userId") int userId);
 }

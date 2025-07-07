@@ -21,8 +21,18 @@ public class UserService {
         return mapper.findUserByUsername(username);
     }
 
-    public Boolean createUser(String username,String password,String userType){
-        Boolean b = mapper.createUser(username, password, userType);
+    public Boolean createUser(String username,String password,String userType,String otherNo){
+        Boolean b = mapper.createUser(username, password, userType,otherNo);
+        if(b){
+            service.commit();
+        }else {
+            service.rollback();
+        }
+        return b;
+    }
+
+    public Boolean updateStudentUserId(int sno, int userId){
+        Boolean b = mapper.updateStudentUserId(sno, userId);
         if(b){
             service.commit();
         }else {

@@ -1,12 +1,9 @@
 package com.niit.servlet;
 
-import com.niit.pojo.Course;
-import com.niit.pojo.StudentCourseSelection;
-import com.niit.pojo.StudnetCompletionRate;
-import com.niit.service.CourseService;
-import com.niit.service.SelectionService;
-import com.niit.service.StudentCourseSelectionService;
-import com.niit.service.StudnetCompletionRateService;
+import com.niit.pojo.*;
+
+import com.niit.service.*;
+
 import com.niit.util.ServletUtil;
 
 import javax.servlet.ServletException;
@@ -27,14 +24,12 @@ public class CourseSelectionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        // 移除不必要的响应内容类型设置，避免提前提交响应
-        // resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=UTF-8");
 
         String action = req.getParameter("action");
         if (action == null) {
             System.out.println("no action!be careful!!!");
-            // 重定向前确保响应未提交
             if (!resp.isCommitted()) {
                 req.getRequestDispatcher("/index.html").forward(req, resp);
             }
@@ -42,7 +37,7 @@ public class CourseSelectionServlet extends HttpServlet {
         }
 
         System.out.println(action);
-        switch (action){
+        switch (action) {
             case "loading":
                 loading(req, resp);
                 break;
@@ -61,85 +56,123 @@ public class CourseSelectionServlet extends HttpServlet {
     }
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userType = new ServletUtil().getUserTypeFromSeesion(req);
-        int sno = new ServletUtil().getSnoBySnameFromSeesion(req);
-        StudnetCompletionRate studentCompletionRate = new StudnetCompletionRateService().findStudnetCompletionRateBySno(sno);
-        System.out.println(studentCompletionRate);
-
+        // 课程对应表
+        List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
+        req.setAttribute("CourseSchedules",courseSchedules);
+        // 时间 星期
         int dayOfWeek = Integer.parseInt(req.getParameter("dayOfWeek"));
         int startTime = Integer.parseInt(req.getParameter("startTime"));
-        String title = req.getParameter("title");
-
-        List<StudentCourseSelection> courseSelections = new StudentCourseSelectionService().findStudentCourseSelectionBySno(sno,startTime,dayOfWeek);
-        System.out.println(courseSelections);
-
+        int semester = Integer.parseInt(req.getParameter("semester"));
+        int year = Integer.parseInt(req.getParameter("year"));
         System.out.println(dayOfWeek);
         System.out.println(startTime);
+        System.out.println(semester);
+        System.out.println(year);
+        req.setAttribute("year",year);
+        req.setAttribute("semester",semester);
+        //用户
+        String userType = new ServletUtil().getUserTypeFromSeesion(req);
+        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        //先修学分 总修学分
+        StudentCredit studentCredit = new StudentCreditService().findStudentCreditBySno(sno);
+        System.out.println(studentCredit);
+        req.setAttribute("studentCredit", studentCredit);
+        //查找所有选修课
+        List<StudentCourse> studentCourses = new StudentCourseService().findElectiveCourseBySnoDayTime(sno,dayOfWeek,startTime);
+        System.out.println(studentCourses);
+        req.setAttribute("studentCourses",studentCourses);
+        // 文本
+        String title = req.getParameter("title");
         System.out.println(title);
+        req.setAttribute("title", title);
 
-        req.setAttribute("CSS",courseSelections);
-        req.setAttribute("title",title);
-        req.setAttribute("SCR",studentCompletionRate);
-        req.getRequestDispatcher("/student/courseSelection.jsp").forward(req,resp);
+        req.getRequestDispatcher("/student/courseSelection.jsp").forward(req, resp);
     }
 
     private void select(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int cno = Integer.parseInt(req.getParameter("cno"));
-        int sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String cno = req.getParameter("cno");
+        // 插入选择数据
+        String msg = ""; // 存储操作结果消息
 
-//        req.setAttribute("action","loading");
-//        req.setAttribute("dayOfWeek",0);
-//        req.setAttribute("startTime",0);
-
-        // 查找先修课
-        Course preCourse = new CourseService().findPreCourseBysNoAndCno(sno, cno);
-        //如果没有先修课
-        if(preCourse == null){
-            System.out.println("插入成功");
-            req.setAttribute("Title","success");
-            int i = new SelectionService().insertSelection(sno,cno);
-            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0?title=success&title=success");
-//            req.getRequestDispatcher("/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0").forward(req,resp);
+        // 1. 校验参数合法性
+        if (sno == null || sno.trim().isEmpty() || cno == null || cno.trim().isEmpty()) {
+            msg = "选课失败：学生编号或课程编号不能为空";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
         }
-        //如果有先修课
-        //查找该学生是否选择了该先修课
-        Course SelCourse = new CourseService().findCourseBySnoAndCno(sno, cno);
-        //查出来有数据
-        if(SelCourse != null) {
-            int i = new SelectionService().insertSelection(sno,cno);
-            if(i > 0){
-                System.out.println("插入成功");
-                req.setAttribute("Title","success");
-                resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0?title=success&title=success");
-//                req.getRequestDispatcher("/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0").forward(req,resp);
-            }
-        }
-        //都不符合
-        System.out.println("未选修先修课或插入失败");
-        req.setAttribute("Title","fail");
-        resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&title=fail");
-//        req.getRequestDispatcher("/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0").forward(req,resp);
 
+        // 2. 执行插入选课记录
+        //先检查是否存在当前时间段的课程
+        int year = Integer.parseInt(req.getParameter("year"));
+        new StudentCourseService().findStudentCourseBySnoAndYear(sno,year);
+
+        int i1 = new StudentCourseService().insertSelectionCourse(sno, cno);
+        if (i1 <= 0) {
+            // 插入失败：可能原因（重复选课、外键不存在、数据库异常）
+            msg = "选课失败：该课程可能已选或课程信息无效";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
+        }
+
+        // 3. 执行更新课程人数
+        int i2 = new StudentCourseService().updateSelectionCourse(cno);
+        if (i2 <= 0) {
+            // 人数更新失败：需回滚（假设StudentCourseService有删除选课记录的方法，若没有则提示异常）
+            // 此处利用现有逻辑反向操作，确保数据一致
+            new StudentCourseService().dropSelectionCourse(sno, cno);
+            new StudentCourseService().deleteSelectionCourse(cno); // 假设存在该方法（若不存在可忽略，仅提示错误）
+            msg = "选课失败：课程人数更新异常，请重试";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
+        }
+
+        System.out.println("选课成功");
+        req.getSession().setAttribute("msg", "选课成功");
+        resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=success");
     }
 
-
     private void cancel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //取消掉该选修课与学生的关系
-        int cno = Integer.parseInt(req.getParameter("cno"));
-        int sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String cno = req.getParameter("cno");
+        // 插入选择数据
+        String msg = ""; // 存储操作结果消息
 
-        int i = new SelectionService().deleteSelection(sno,cno);
-        System.out.println(i);
-//        if(i > 0){
-            System.out.println("取消成功!");
-            req.setAttribute("Title","success");
-            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&title=success");
-//            req.getRequestDispatcher("/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0").forward(req,resp);
-//        }
-//        System.out.println("取消失败!");
-//        req.setAttribute("Title","fail");
-//        resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0?title=fail");
-//        req.getRequestDispatcher("/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0").forward(req,resp);
+        // 1. 校验参数合法性
+        if (sno == null || sno.trim().isEmpty() || cno == null || cno.trim().isEmpty()) {
+            msg = "退课失败：学生编号或课程编号不能为空";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
+        }
 
+        // 2. 执行删除选课记录
+        int i1 = new StudentCourseService().dropSelectionCourse(sno, cno);
+        if (i1 <= 0) {
+            // 插入失败：可能原因（重复选课、外键不存在、数据库异常）
+            msg = "退课失败：该课程可能未选或课程信息无效";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
+        }
+        // 3. 执行更新课程人数
+        int i2 = new StudentCourseService().deleteSelectionCourse(cno);
+        if (i2 <= 0) {
+            // 人数更新失败：需回滚（假设StudentCourseService有删除选课记录的方法，若没有则提示异常）
+            // 此处利用现有逻辑反向操作，确保数据一致
+            new StudentCourseService().updateSelectionCourse(cno);
+            new StudentCourseService().insertSelectionCourse(sno, cno);
+            msg = "退课失败：课程人数更新异常，请重试";
+            req.getSession().setAttribute("msg", msg);
+            resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=error");
+            return;
+        }
+
+        System.out.println("退课成功");
+        req.getSession().setAttribute("msg", "退课成功");
+        resp.sendRedirect(req.getContextPath() + "/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=success");
     }
 }

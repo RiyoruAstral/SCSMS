@@ -5,16 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
 @Data
-public class User {
-    private int userId;
-    private String username;
-    private String password;
-    private String userType;
-    private String otherNo;
+public class StudentCredit {
+    private String sno;
+    private int cNow;
+    private int cNeed;
 }

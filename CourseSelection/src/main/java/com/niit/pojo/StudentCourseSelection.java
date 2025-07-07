@@ -10,13 +10,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class StudentCourseSelection {
+    private int sno;
     private int cno;
-    private String cName;
-    private int credit;
-    private String teacher;
-    private String startTime;
-    private String location;
-    private int remainingStudent;
-    private String flag;
-    private String prerequisite;
 }

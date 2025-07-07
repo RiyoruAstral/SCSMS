@@ -3,21 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.StudentMapper">
-    <update id="updateStudentUserId">
-        UPDATE student
-        SET userId = #{userId}
-        WHERE sNo = #{sno}
-    </update>
 
-    <select id="findStudentBySnoAndDepartment" resultType="com.niit.pojo.Student">
+
+    <select id="findStudentBySno" resultType="com.niit.pojo.Student">
         SELECT *
-        FROM student
-        WHERE sNo = #{sno}
-            AND dNo = #{dno};
+        FROM students
+        WHERE sNo = #{sno};
     </select>
     <select id="findStudentByUserId" resultType="com.niit.pojo.Student">
-        SELECT *
-        FROM student
+        SELECT s.sno,s.sname
+        FROM students s
+        INNER JOIN users u ON s.sno = u.otherNo
         WHERE userId = #{userId};
     </select>
 </mapper>
