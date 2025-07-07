@@ -54,6 +54,9 @@ public class StudentCourseService {
         return i;
     }
 
+    public int countElectiveCourseBySno(String sno){
+        return mapper.countElectiveCourseBySno(sno);
+    };
     public List<StudentCourse> findStudentCourseBySnoAndYear(String sno,int year){return mapper.findStudentCourseBySnoAndYear(sno,year);};
     public List<StudentCourse> findElectiveCourseBySnoDayTime(String sno,int dayOfWeek,int time){return mapper.findElectiveCourseBySnoDayTime(sno,dayOfWeek
     ,time);}
