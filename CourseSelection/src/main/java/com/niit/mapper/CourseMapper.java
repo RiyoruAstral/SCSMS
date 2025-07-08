@@ -10,6 +10,7 @@ public interface CourseMapper {
     List<String> findSelectionCourse(@Param("sno")String sno);
     String findMax_cno();
 
+    int deleteCourse(@Param("cno")String cno);
 
     int insertCourse(
             @Param("cno") String cno,
