@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niit.mapper.TeacherMapper">
+    <insert id="insertTeaching">
+        INSERT INTO
+        teaching VALUES(
+                        #{tno},
+                        #{cno}
+                               );
+    </insert>
+
+    <select id="findTeacherByUserId" resultType="com.niit.pojo.Teacher">
+        SELECT t.tno,t.tname
+        FROM teachers t
+                 INNER JOIN users u ON t.tno = u.otherNo
+        WHERE userId = #{userId};
+    </select>
+    <select id="findTeacherByTno" resultType="com.niit.pojo.Teacher">
+        SELECT t.tno,t.tname
+        FROM teachers t
+        WHERE t.tno = #{tno};
+    </select>
+</mapper>

@@ -72,7 +72,7 @@ public class CourseSelectionServlet extends HttpServlet {
         req.setAttribute("semester",semester);
         //用户
         String userType = new ServletUtil().getUserTypeFromSeesion(req);
-        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String sno = new ServletUtil().getSnoByUsernameFromSeesion(req);
         //先修学分 总修学分
         StudentCredit studentCredit = new StudentCreditService().findStudentCreditBySno(sno);
         System.out.println(studentCredit);
@@ -96,7 +96,7 @@ public class CourseSelectionServlet extends HttpServlet {
     }
 
     private void select(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String sno = new ServletUtil().getSnoByUsernameFromSeesion(req);
         String cno = req.getParameter("cno");
         // 插入选择数据
         String msg = ""; // 存储操作结果消息
@@ -170,7 +170,7 @@ public class CourseSelectionServlet extends HttpServlet {
     }
 
     private void cancel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sno = new ServletUtil().getSnoBySnameFromSeesion(req);
+        String sno = new ServletUtil().getSnoByUsernameFromSeesion(req);
         String cno = req.getParameter("cno");
         // 插入选择数据
         String msg = ""; // 存储操作结果消息

@@ -131,7 +131,7 @@
                                         </td>
                                         <td>${c.DName}</td>
                                         <td>${c.remainPeople}</td>
-                                        <td>${c.flag}
+                                        <td>
                                             <form action="/CourseSelectionServlet" method="post">
                                                 <input type="hidden" name="dayOfWeek" value="${c.dayOfWeek}">
                                                 <input type="hidden" name="startTime" value="${c.time}">

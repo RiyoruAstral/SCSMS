@@ -2,6 +2,7 @@ package com.niit.util;
 
 import com.niit.pojo.CourseSchedule;
 import com.niit.service.StudentService;
+import com.niit.service.TeacherService;
 import com.niit.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServletUtil {
-    public String getSnoBySnameFromSeesion(HttpServletRequest req){
+    public String getSnoByUsernameFromSeesion(HttpServletRequest req){
         HttpSession session = req.getSession();
         String username = (String) session.getAttribute("username");
         int userId = new UserService().findUserByUsername(username).getUserId();
         return new StudentService().findStudentByUserId(userId).getSno();
+    }
+    public String getTnoByUsernameFromSeesion(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        String username = (String) session.getAttribute("username");
+        int userId = new UserService().findUserByUsername(username).getUserId();
+        return new TeacherService().findTeacherByUserId(userId).getTno();
     }
     public String getUserTypeFromSeesion(HttpServletRequest req){
         HttpSession session = req.getSession();

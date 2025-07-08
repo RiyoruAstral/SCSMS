@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @Data
-public class Teacher {
-    private String tno;
-    private String tName;
+public class CourseLocation {
+    private String dno;
+    private String dName;
 }
