@@ -15,7 +15,34 @@ public class CourseService {
     MyBatisService service = MyBatisService.getInstance();
     private final CourseMapper mapper = service.getMapper(CourseMapper.class);
 
+    public int insertCourse(
+            Course course
+    ){
+        int i = mapper.insertCourse(
+                course.getCno(),
+                course.getCName(),
+                course.getYear(),
+                course.getDayOfType(),
+                course.getTime(),
+                course.getStartWeek(),
+                course.getEndWeek(),
+                course.getCredit(),
+                course.getType(),
+                course.getSemester(),
+                course.getSelectPeople(),
+                course.getTotalPeople()
+        );
+        if(i>0){
+            service.commit();
+        }else {
+            service.rollback();
+        }
+        return i;
+    }
 
+    public String findMax_cno(){
+        return mapper.findMax_cno();
+    }
     public List<Course> findElectiveCourse(){return mapper.findElectiveCourse();}
     public List<String> findSelectionCourse(String sno){return mapper.findSelectionCourse(sno);}
 

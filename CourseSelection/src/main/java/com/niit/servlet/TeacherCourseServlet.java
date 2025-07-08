@@ -2,7 +2,9 @@ package com.niit.servlet;
 
 import com.niit.pojo.CourseSchedule;
 import com.niit.pojo.StudentCourse;
+import com.niit.pojo.TeacherCourse;
 import com.niit.service.StudentCourseService;
+import com.niit.service.TeacherCourseService;
 import com.niit.util.ServletUtil;
 
 import javax.servlet.ServletException;
@@ -11,10 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@WebServlet("/StudentCourseServlet")
-public class StudentCourseServlet extends HttpServlet {
+@WebServlet("/TeacherCourseServlet")
+public class TeacherCourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -32,7 +36,7 @@ public class StudentCourseServlet extends HttpServlet {
             System.out.println("no action!be careful!!!");
             // 重定向前确保响应未提交
             if (!resp.isCommitted()) {
-                req.getRequestDispatcher("/index.html").forward(req, resp);
+                req.getRequestDispatcher("/index.jsp").forward(req, resp);
             }
             return;
         }
@@ -53,12 +57,11 @@ public class StudentCourseServlet extends HttpServlet {
                 }
         }
     }
-
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         //用户信息
-        String sno = new ServletUtil().getSnoByUsernameFromSeesion(req);
+        String tno = new ServletUtil().getTnoByUsernameFromSeesion(req);
         String userType = new ServletUtil().getUserTypeFromSeesion(req);
-        System.out.println(sno);
+        System.out.println(tno);
         System.out.println(userType);
         //时间信息
         int year = Integer.parseInt(req.getParameter("year"));
@@ -68,33 +71,33 @@ public class StudentCourseServlet extends HttpServlet {
         System.out.println(semester);
         System.out.println(week);
         // 初始化sendSC列表
-        List<StudentCourse> sendSC = new ArrayList<>();
+        List<TeacherCourse> sendTC = new ArrayList<>();
         //如果当前是学生
-        if (Objects.equals(userType, "student")) {
+        if (Objects.equals(userType, "teacher")) {
             //获取时间映射表
             List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
             req.setAttribute("CourseSchedules",courseSchedules);
             //获取课程表
-            List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndYear(sno,year);
-            if(studentCourses == null){
+            List<TeacherCourse> teacherCourses = new TeacherCourseService().findTeacherCourseBySnoAndYear(tno,year);
+            if(teacherCourses == null){
                 resp.sendRedirect("/index.jsp");
                 return;
             }
 
-            for(StudentCourse c : studentCourses){
+            for(TeacherCourse c : teacherCourses){
                 if(year == Integer.parseInt(c.getYear()) && semester == c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
-                    sendSC.add(c);
+                    sendTC.add(c);
                 }
             }
 
-            System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
-            System.out.println(sendSC);
+            System.out.println("添加到session的课程数量: " + sendTC.size()); // 调试用
+            System.out.println(sendTC);
 
 
-            req.setAttribute("StudentCourses", sendSC);
+            req.setAttribute("TeacherCourses", sendTC);
 
 
-            req.getRequestDispatcher("/student/scheduleView.jsp").forward(req,resp);
+            req.getRequestDispatcher("/teacher/scheduleView.jsp").forward(req,resp);
             return;
         }
         resp.sendRedirect("/index.jsp");

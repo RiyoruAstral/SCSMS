@@ -13,9 +13,9 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">2025年秋季选课</h4>
+                        <h4 class="card-title">${year}年${semester == 1 ? '秋' : '春'}季选课</h4>
 
-                        <p class="card-description">学年度: 2025 学期: 第一学期</p>
+                        <p class="card-description">学年度: ${year} 学期: 第${semester}学期</p>
                         <table width="100%" class="table table-striped">
                             <thead>
                             <tr>
@@ -30,7 +30,7 @@
                                 <td>专业选修课</td>
                                 <td>${studentCredit.CNow}</td>
                                 <td>${studentCredit.CNeed}</td>
-                                <td></td>
+                                <td>${countElectiveCourse}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -68,6 +68,8 @@
                                     </td>
                                     <td width="20%">
                                         <input type="hidden" name="title" value="null">
+                                        <input type="hidden" name="semester" value="1">
+                                        <input type="hidden" name="year" value="2025">
                                         <input type="submit" value="GO" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                                     </td>
                                 </tr>
@@ -131,8 +133,8 @@
                                         <td>${c.remainPeople}</td>
                                         <td>${c.flag}
                                             <form action="/CourseSelectionServlet" method="post">
-                                                <input type="hidden" name="dayOfWeek" value="0">
-                                                <input type="hidden" name="startTime" value="0">
+                                                <input type="hidden" name="dayOfWeek" value="${c.dayOfWeek}">
+                                                <input type="hidden" name="startTime" value="${c.time}">
                                                 <input type="hidden" name="year" value="2025">
                                                 <input type="hidden" name="semester" value="1">
                                                 <input type="hidden" name="action" value="${c.flag == '未选择' ? 'select' : 'cancel'}">

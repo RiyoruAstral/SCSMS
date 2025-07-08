@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.CourseMapper">
+    <insert id="insertCourse" parameterType="Course">
+        INSERT INTO courses
+        (cno, cName, year, dayOfWeek, time, startWeek, endWeek, credit, type, semester, select_people, total_people)
+        VALUES
+            (#{cno}, #{cName}, #{year}, #{dayOfWeek}, #{time}, #{startWeek}, #{endWeek}, #{credit}, #{type}, #{semester}, #{selectPeople}, #{totalPeople})
+    </insert>
+
 
     <select id="findElectiveCourse" resultType="com.niit.pojo.Course">
         SELECT *
@@ -14,5 +21,8 @@
         FROM students s
             INNER JOIN course_selection sc ON S.sno = sc.sno
         WHERE s.sno = #{sno};
+    </select>
+    <select id="findMax_cno" resultType="java.lang.String">
+        SELECT MAX(cno) AS max_cno FROM courses;
     </select>
 </mapper>

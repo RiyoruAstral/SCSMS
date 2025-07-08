@@ -69,4 +69,11 @@
         </if>
         ORDER BY c.cno;
     </select>
+    <select id="countElectiveCourseBySno" resultType="java.lang.Integer">
+        SELECT count(sno)
+        FROM course_selection sc
+                 INNER JOIN courses c ON sc.cno = c.cno
+        WHERE sc.sno = #{sno}
+          AND c.type = '选修';
+    </select>
 </mapper>

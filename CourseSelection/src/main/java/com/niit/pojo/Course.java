@@ -20,5 +20,6 @@ public class Course {
     private int credit;
     private String type;
     private int semester;
-
+    private int selectPeople;
+    private int totalPeople;
 }
