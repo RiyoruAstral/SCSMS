@@ -9,4 +9,6 @@ public interface LocationMapper {
     String findDnoBydName(@Param("dName")String dName);
 
     int insertLocation(@Param("cno")String cno,@Param("dno") String dno);
+
+    int deleteLocation(@Param("cno")String cno,@Param("dno") String dno);
 }

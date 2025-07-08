@@ -3,10 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.TeacherCourseMapper">
+    <delete id="deleteTeacherAndCourse">
+        DELETE FROM teaching
+        WHERE cno = #{cno}
+            AND tno = #{tno}
+    </delete>
 
     <select id="findTeacherCourseByTnoAndYear" resultType="com.niit.pojo.TeacherCourse">
         SELECT
-            t.tname,c.cno,c.cname,l.dname,c.`year`,c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester
+            t.tno,t.tname,c.cno,c.cname,l.dname,c.`year`,c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.total_people - c.select_people as remainPeople,c.total_people
         FROM
             teachers t
                 inner JOIN teaching tg on t.tno = tg.tno

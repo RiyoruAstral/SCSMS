@@ -21,6 +21,16 @@ public class CourseLocationService {
         return i;
     }
 
+    public int deleteLocation(String cno,String dno){
+        int i = mapper.deleteLocation(cno,dno);
+        if(i>0){
+            service.commit();
+        }else {
+            service.rollback();
+        }
+        return i;
+    }
+
     public String findDnoBydName(String dName){
         return mapper.findDnoBydName(dName);
     };

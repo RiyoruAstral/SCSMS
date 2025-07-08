@@ -16,10 +16,20 @@
         SET c.select_people = c.select_people - 1
         WHERE c.cno = #{cno};
     </update>
+    <update id="updateGradeBySnoCno">
+        UPDATE course_selection sc
+        SET grade = #{grade}
+        WHERE sc.sno = #{sno}
+            AND sc.cno = #{cno}
+    </update>
     <delete id="dropSelectionCourse">
         DELETE FROM course_selection sc
         WHERE sc.cno = #{cno}
         AND sc.sno = #{sno}
+    </delete>
+    <delete id="deleteStudentCourse">
+        DELETE FROM course_selection sc
+        WHERE cno = #{cno}
     </delete>
 
     <select id="findStudentCourseBySnoAndYear" resultType="com.niit.pojo.StudentCourse">
@@ -75,5 +85,13 @@
                  INNER JOIN courses c ON sc.cno = c.cno
         WHERE sc.sno = #{sno}
           AND c.type = '选修';
+    </select>
+    <select id="selectStudentCourseGrade" resultType="com.niit.pojo.StudentCourse">
+        SELECT
+            s.sno,s.sname, c.cno, c.semester,cs.grade,c.total_people - c.select_people as remainPeople,c.total_people
+        FROM
+            students s
+                JOIN course_selection cs ON s.sno = cs.sno
+                JOIN courses c ON cs.cno = c.cno
     </select>
 </mapper>

@@ -24,8 +24,10 @@ public class TeacherCourse {
     private int credit;
     private String flag;
     private int remainPeople;
+    private int totalPeople;
 
-    public TeacherCourse(String tName, String cno, String cName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester) {
+    public TeacherCourse(String tno,String tName, String cno, String cName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester,int remainPeople,int totalPeople) {
+        this.tno = tno;
         this.tName = tName;
         this.cno = cno;
         this.cName = cName;
@@ -36,6 +38,8 @@ public class TeacherCourse {
         this.startWeek = startWeek;
         this.endWeek = endWeek;
         this.semester = semester;
+        this.remainPeople = remainPeople;
+        this.totalPeople = totalPeople;
     }
 
 

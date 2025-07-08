@@ -9,11 +9,15 @@
         VALUES
             (#{cno}, #{cName}, #{year}, #{dayOfWeek}, #{time}, #{startWeek}, #{endWeek}, #{credit}, #{type}, #{semester}, #{selectPeople}, #{totalPeople})
     </insert>
+    <delete id="deleteCourse">
+        DELETE FROM courses
+        WHERE cno = #{cno}
+    </delete>
 
 
     <select id="findElectiveCourse" resultType="com.niit.pojo.Course">
         SELECT *
-        FROM courses
+        FROM courses c
         WHERE type = '选修';
     </select>
     <select id="findSelectionCourse" resultType="java.lang.String">

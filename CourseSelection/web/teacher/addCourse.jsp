@@ -90,8 +90,8 @@
                             <div class="form-group">
                                 <label for="type">课程性质</label>
                                 <select class="form-control" id="type" name="type">
-                                    <option value="必修">必修</option>
                                     <option value="选修">选修</option>
+                                    <option value="必修">必修</option>
                                 </select>
                             </div>
                             <div class="form-group">

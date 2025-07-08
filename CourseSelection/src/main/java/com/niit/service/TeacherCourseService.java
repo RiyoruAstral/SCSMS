@@ -19,4 +19,13 @@ public class TeacherCourseService {
         return mapper.findTeacherCourseNotInTno(tno, year);
     };
 
+    public int deleteTeacherAndCourse(@Param("tno")String tno, @Param("cno")String cno){
+        int i = mapper.deleteTeacherAndCourse(tno, cno);
+        if(i > 0){
+            service.commit();
+        }else{
+            service.rollback();
+        }
+        return i;
+    }
 }

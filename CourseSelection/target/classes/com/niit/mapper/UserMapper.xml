@@ -9,12 +9,12 @@
     </insert>
 
     <select id="selectUsers" resultType="com.niit.pojo.User">
-        SELECT *
-        FROM users;
+        SELECT u.userId, username, password, userType, otherNo
+        FROM users u;
     </select>
     <select id="findUserByUsername" resultType="com.niit.pojo.User">
-        SELECT *
-        FROM users
+        SELECT u.userId, username, password, userType, otherNo
+        FROM users u
         WHERE username = #{username};
     </select>
     <update id="updateStudentUserId">

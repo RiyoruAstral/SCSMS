@@ -43,6 +43,17 @@ public class CourseService {
     public String findMax_cno(){
         return mapper.findMax_cno();
     }
+
+    public int deleteCourse(String cno){
+        int i = mapper.deleteCourse(cno);
+        if(i>0){
+            service.commit();
+        }else {
+            service.rollback();
+        }
+        return i;
+    }
+
     public List<Course> findElectiveCourse(){return mapper.findElectiveCourse();}
     public List<String> findSelectionCourse(String sno){return mapper.findSelectionCourse(sno);}
 

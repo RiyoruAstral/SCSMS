@@ -11,6 +11,11 @@
                 #{dno}
                )
     </insert>
+    <delete id="deleteLocation">
+        DELETE FROM course_locations
+        WHERE cno = #{cno}
+            AND dno = #{dno}
+    </delete>
 
     <select id="selectAllLocation" resultType="com.niit.pojo.CourseLocation">
         SELECT l.dno, dname

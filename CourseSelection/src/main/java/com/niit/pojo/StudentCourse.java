@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class StudentCourse {
+    private String sno;
     private String sName;
     private String cno;
     private String cName;
@@ -24,6 +25,8 @@ public class StudentCourse {
     private int credit;
     private String flag;
     private int remainPeople;
+    private int totalPeople;
+    private int grade;
 
     public StudentCourse(String sName, String cno, String cName, String tName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester) {
         this.sName = sName;
@@ -52,5 +55,15 @@ public class StudentCourse {
         this.remainPeople = remainPeople;
         this.flag = flag;
 
+    }
+
+    public StudentCourse(String sno, String sName, String cno, int semester, int grade,int remainPeople,int totalPeople) {
+        this.sno = sno;
+        this.sName = sName;
+        this.cno = cno;
+        this.semester = semester;
+        this.grade = grade;
+        this.remainPeople = remainPeople;
+        this.totalPeople = totalPeople;
     }
 }
