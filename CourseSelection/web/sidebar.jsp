@@ -22,7 +22,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#student-menu" aria-controls="student-menu">
-                    <i class="mdi mdi-circle-outline menu-icon"></i>
+                    <i class="mdi mdi-content-paste menu-icon"></i>
                     <span class="menu-title">学生课程管理</span>
                     <i class="menu-arrow"></i>
                 </a>
@@ -34,8 +34,8 @@
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/student/scheduleView.jsp') ? 'active' : ''}">
                             <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/StudentCourseServlet?action=loading&year=2025&semester=1&week=1">我的课表</a>
                         </li>
-                        <li class="nav-item ${pageContext.request.requestURI.endsWith('exams.jsp') ? 'active' : ''}">
-                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="pages/student/exams.jsp">我的考试</a>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/student/exams.jsp') ? 'active' : ''}">
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/StudentExamServlet?action=loading&year=2025">我的考试</a>
                         </li>
                     </ul>
                 </div>
@@ -45,13 +45,13 @@
             <!-- 教师菜单 - 仅当用户类型为teacher时显示 -->
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#teacher-menu" aria-controls="teacher-menu">
-                    <i class="mdi mdi-circle-outline menu-icon"></i>
+                    <i class="mdi mdi-content-save menu-icon"></i>
                     <span class="menu-title">教师课程管理</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse" id="teacher-menu">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item ${pageContext.request.requestURI.endsWith('myCourses.jsp') ? 'active' : ''} ">
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/setCourse.jsp') ? 'active' : ''} ">
                             <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/SetCourseServlet?action=loading&year=2025">我的课程</a>
                         </li>
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/scheduleView.jsp') ? 'active' : ''} ">
@@ -62,6 +62,13 @@
                         </li>
                     </ul>
                 </div>
+            </li>
+
+            <li class="nav-item ${pageContext.request.requestURI.contains('/user.jsp') ? 'active' : ''}">
+                <a class="nav-link" href="/UserServlet?action=loading">
+                    <i class="mdi mdi-account menu-icon"></i>
+                    <span class="menu-title">个人信息</span>
+                </a>
             </li>
 
             <li class="nav-item ${pageContext.request.requestURI.contains('forms') ? 'active' : ''}">

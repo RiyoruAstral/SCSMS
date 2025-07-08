@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niit.mapper.UserMapper">
     <insert id="createUser">
-        INSERT INTO users (username, password, role, otherNo)
+        INSERT INTO users (username, password, userType, otherNo)
         VALUES (#{username}, #{password}, #{userType}, #{otherNo});
     </insert>
 
@@ -17,10 +17,27 @@
         FROM users u
         WHERE username = #{username};
     </select>
+    <select id="findUserByTno" resultType="com.niit.pojo.User">
+        SELECT u.userId, username, userType, otherNo ,tname as name
+        FROM users u
+                 INNER JOIN teachers t ON t.tno = u.otherNo
+        WHERE tno = #{tno}
+    </select>
+    <select id="findUserBySno" resultType="com.niit.pojo.User">
+        SELECT u.userId, username, userType, otherNo ,sname as name
+        FROM users u
+                 INNER JOIN students s ON s.sno = u.otherNo
+        WHERE sno = #{sno}
+    </select>
     <update id="updateStudentUserId">
         UPDATE users
         SET userId = #{userId}
         WHERE otherNo = #{sno}
+    </update>
+    <update id="updateUserPassword">
+        UPDATE users
+        SET password = #{password}
+        WHERE userId = #{userId}
     </update>
 
 </mapper>

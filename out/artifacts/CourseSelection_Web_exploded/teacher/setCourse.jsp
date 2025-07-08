@@ -10,7 +10,7 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="card-title text-danger">${msg}</h4>
+                <h4 class="card-title text-primary">${msg}</h4>
             </div>
             <c:forEach items="${teacherCourses}" var="tc">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -46,7 +46,10 @@
 
                                                     <input value="${sc.grade}"
                                                            name="newGrade"
-                                                           type="text"
+                                                           type="number"
+                                                           min="0"
+                                                           max="100"
+                                                           step="1"
                                                            class="form-control grade-input">
                                                 </td>
                                                 <td>

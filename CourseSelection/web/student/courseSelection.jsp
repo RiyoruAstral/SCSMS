@@ -75,10 +75,10 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <c:choose>
-                                <c:when test="${title == 'null'}"><p class="hidden"></p></c:when>
-                                <c:when test="${title == 'fail' && title == 'error'}"><p>${msg}</p></c:when>
-                            </c:choose>
+
+
+                                <h4 class="text-primary">${msg}</h4>
+
                         </form>
                     </div>
                 </div>

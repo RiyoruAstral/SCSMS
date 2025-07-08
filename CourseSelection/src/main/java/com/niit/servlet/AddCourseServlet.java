@@ -59,7 +59,7 @@ public class AddCourseServlet extends HttpServlet {
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //获取老师名字 添加到授课人位置
-        String tno = new ServletUtil().getTnoByUsernameFromSeesion(req);
+        String tno = new ServletUtil().getTnoByUsernameFromSession(req);
         Teacher teacher = new TeacherService().findTeacherByTno(tno);
         System.out.println(teacher);
         req.setAttribute("tname",teacher.getTName());
@@ -87,7 +87,7 @@ public class AddCourseServlet extends HttpServlet {
         int credit = Integer.parseInt(req.getParameter("credit"));
         String tname = req.getParameter("tname");
         int peopleNum = Integer.parseInt(req.getParameter("maxPeople"));
-        String tno = new ServletUtil().getTnoByUsernameFromSeesion(req);
+        String tno = new ServletUtil().getTnoByUsernameFromSession(req);
         //比对该教师的时间表
         List<TeacherCourse> teacherCourses = new TeacherCourseService().findTeacherCourseBySnoAndYear(tno, year);
         for(TeacherCourse c : teacherCourses){

@@ -1,9 +1,7 @@
 package com.niit.servlet;
 
 import com.niit.pojo.CourseSchedule;
-import com.niit.pojo.StudentCourse;
 import com.niit.pojo.TeacherCourse;
-import com.niit.service.StudentCourseService;
 import com.niit.service.TeacherCourseService;
 import com.niit.util.ServletUtil;
 
@@ -59,8 +57,8 @@ public class TeacherCourseServlet extends HttpServlet {
     }
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         //用户信息
-        String tno = new ServletUtil().getTnoByUsernameFromSeesion(req);
-        String userType = new ServletUtil().getUserTypeFromSeesion(req);
+        String tno = new ServletUtil().getTnoByUsernameFromSession(req);
+        String userType = new ServletUtil().getUserTypeFromSession(req);
         System.out.println(tno);
         System.out.println(userType);
         //时间信息
