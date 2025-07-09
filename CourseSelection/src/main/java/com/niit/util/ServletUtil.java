@@ -13,18 +13,34 @@ import java.util.List;
 import java.util.Objects;
 
 public class ServletUtil {
+    //通过username获取sno
     public String getSnoByUsernameFromSession(HttpServletRequest req){
         HttpSession session = req.getSession();
         String username = (String) session.getAttribute("username");
         int userId = new UserService().findUserByUsername(username).getUserId();
         return new StudentService().findStudentByUserId(userId).getSno();
     }
+    //通过userid获取sno
+    public String getSnoByUserIdFromSession(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("userId");
+        return new StudentService().findStudentByUserId(userId).getSno();
+    }
+
+    //通过username获取tno
     public String getTnoByUsernameFromSession(HttpServletRequest req){
         HttpSession session = req.getSession();
         String username = (String) session.getAttribute("username");
         int userId = new UserService().findUserByUsername(username).getUserId();
         return new TeacherService().findTeacherByUserId(userId).getTno();
     }
+    //通过userid获取tno
+    public String getTnoByUserIdFromSession(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("userId");
+        return new TeacherService().findTeacherByUserId(userId).getTno();
+    }
+    //通过userid获取user
     public String getUserTypeFromSession(HttpServletRequest req){
         HttpSession session = req.getSession();
         return (String) session.getAttribute("userType");
@@ -40,20 +56,24 @@ public class ServletUtil {
         return courseSchedules;
     }
 
-
+    //获取user
     public User findUserFromSession(HttpServletRequest req){
         String userType = new ServletUtil().getUserTypeFromSession(req);
         System.out.println(userType);
         req.setAttribute("userType",userType);
+
+//        int userId = (int) req.getSession().getAttribute("userId");
+//        User user = new UserService().findUserByUserId(userId);
+//        System.out.println(user);
         User user = new User();
         if(Objects.equals(userType, "student")){
-            String sno = new ServletUtil().getSnoByUsernameFromSession(req);
+            String sno = new ServletUtil().getSnoByUserIdFromSession(req);
             System.out.println(sno);
             user = new UserService().findUserBySno(sno);
 
 
         }else if(Objects.equals(userType, "teacher")){
-            String tno = new ServletUtil().getTnoByUsernameFromSession(req);
+            String tno = new ServletUtil().getTnoByUserIdFromSession(req);
             System.out.println(tno);
             user = new UserService().findUserByTno(tno);
         }

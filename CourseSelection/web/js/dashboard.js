@@ -8,7 +8,7 @@
         labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8"],
         datasets: [
           {
-            label: 'Returns',
+            label: '音乐鉴赏',
             data: [27, 35, 30, 40, 52, 48, 54, 46, 70],
             borderColor: [
               '#ff4747'
@@ -18,7 +18,7 @@
             pointBackgroundColor: "#fff"
           },
           {
-            label: 'Sales',
+            label: '美术原理',
             data: [29, 40, 37, 48, 64, 58, 70, 57, 80],
             borderColor: [
               '#4d83ff'
@@ -28,7 +28,7 @@
             pointBackgroundColor: "#fff"
           },
           {
-            label: 'Loss',
+            label: '大数据',
             data: [90, 62, 80, 63, 72, 62, 40, 50, 38],
             borderColor: [
               '#ffc100'

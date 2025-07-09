@@ -31,6 +31,7 @@ public class UserServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         String action = req.getParameter("action");
+        System.out.println(action);
         if (action == null) {
             System.out.println("no action!be careful!!!");
             // 重定向前确保响应未提交
@@ -42,7 +43,7 @@ public class UserServlet extends HttpServlet {
 
         switch (action) {
             case "loading":
-                System.out.println("loading");
+//                System.out.println("loading");
                 loading(req, resp);
                 break;
             case "update":
@@ -69,21 +70,22 @@ public class UserServlet extends HttpServlet {
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String password = req.getParameter("Password");
         String rePassword = req.getParameter("rePassword");
-        if(password == rePassword){
+        System.out.println(password + "  " + rePassword);
+        if(Objects.equals(password, rePassword)){
             User user = new ServletUtil().findUserFromSession(req);
             int userId = user.getUserId();
             int i = new UserService().updateUserPassword(userId, password);
-            if(i > 0){
+//            if(i > 0){
                 String msg = "更改密码成功";
                 System.out.println(msg);
                 req.getSession().setAttribute("msg", msg);
-                resp.sendRedirect("/SetCourseServlet?action=loading");
+                resp.sendRedirect("/UserServlet?action=loading");
                 return;
-            }
+//            }
         }
         String msg = "更改密码失败";
         System.out.println(msg);
         req.getSession().setAttribute("msg", msg);
-        resp.sendRedirect("/SetCourseServlet?action=loading");
+        resp.sendRedirect("/UserServlet?action=loading");
     }
 }

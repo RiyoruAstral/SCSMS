@@ -58,4 +58,28 @@ public class UserService {
         }
         return b;
     }
+
+    public int insertUser(int userId,String username,String password,String userType,String otherNo){
+        int i = mapper.insertUser(userId, username, password, userType, otherNo);
+        if(i > 0){
+            service.commit();
+        }else{
+            service.rollback();
+        }
+        return i;
+    }
+
+    public int findMaxUserId(){
+        return mapper.findMaxUserId();
+    }
+
+    public User findUserByUserId(int userId){
+        return mapper.findUserByUserId(userId);
+    }
+    
+    public User findUserByOtherId(String otherId){
+        return mapper.findUserByOtherId(otherId);
+    }
+    
+
 }

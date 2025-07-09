@@ -7,6 +7,10 @@
         INSERT INTO users (username, password, userType, otherNo)
         VALUES (#{username}, #{password}, #{userType}, #{otherNo});
     </insert>
+    <insert id="insertUser">
+        INSERT INTO users (userId, username, password, userType, otherNo)
+        VALUES (#{userId},#{username},#{password},#{userType},#{otherNo});
+    </insert>
 
     <select id="selectUsers" resultType="com.niit.pojo.User">
         SELECT u.userId, username, password, userType, otherNo
@@ -28,6 +32,20 @@
         FROM users u
                  INNER JOIN students s ON s.sno = u.otherNo
         WHERE sno = #{sno}
+    </select>
+    <select id="findMaxUserId" resultType="java.lang.Integer">
+        SELECT MAX(users.userId)
+        FROM users;
+    </select>
+    <select id="findUserByUserId" resultType="com.niit.pojo.User">
+        SELECT u.userId, username, password, userType, otherNo
+        FROM users u
+        WHERE userId = #{userId};
+    </select>
+    <select id="findUserByOtherId" resultType="com.niit.pojo.User">
+        SELECT u.userId, username, password, userType, otherNo
+        FROM users u
+        WHERE otherNo = #{otherId};
     </select>
     <update id="updateStudentUserId">
         UPDATE users

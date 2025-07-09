@@ -15,5 +15,9 @@ public interface UserMapper {
     Boolean createUser(@Param("username") String username,@Param("password") String password,@Param("userType") String userType,@Param("otherNo") String otherNo);
     Boolean updateStudentUserId(@Param("sno") int sno,@Param("userId") int userId);
 
+    int findMaxUserId();
+    int insertUser(@Param("userId")int userId,@Param("username")String username,@Param("password")String password,@Param("userType")String userType,@Param("otherNo")String otherNo);
 
+    User findUserByUserId(@Param("userId")int userId);
+    User findUserByOtherId(@Param("otherId")String otherId);
 }
