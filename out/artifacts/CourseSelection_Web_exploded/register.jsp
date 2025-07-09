@@ -34,7 +34,7 @@
                       </span>
                                 </div>
                                 <input type="text" class="form-control form-control-lg border-left-0"
-                                       placeholder="StudentID/TeacherID" value="${param.otherId} name="userId" required="required">
+                                       placeholder="StudentID/TeacherID" value="${param.otherId}" name="userId" required="required">
                             </div>
                         </div>
                         <div class="form-group">

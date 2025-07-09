@@ -27,8 +27,10 @@ public class StudentCourse {
     private int remainPeople;
     private int totalPeople;
     private int grade;
+    private int examTime;
+    private int examWeek;
 
-    public StudentCourse(String sName, String cno, String cName, String tName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester,int credit,int grade) {
+    public StudentCourse(String sName, String cno, String cName, String tName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester,int credit,int grade,int examTime,int examWeek) {
         this.sName = sName;
         this.cno = cno;
         this.cName = cName;
@@ -42,6 +44,8 @@ public class StudentCourse {
         this.semester = semester;
         this.credit = credit;
         this.grade = grade;
+        this.examTime = examTime;
+        this.examWeek = examWeek;
     }
 
     public StudentCourse(String cno, String cName, int credit, String dName, String tName, int time, int startWeek, int endWeek, int dayOfWeek, int remainPeople, String flag) {
@@ -67,5 +71,18 @@ public class StudentCourse {
         this.grade = grade;
         this.remainPeople = remainPeople;
         this.totalPeople = totalPeople;
+    }
+
+    public StudentCourse(String cno, String cName, String tName, String dName, String year, int dayOfWeek, int time, int startWeek, int endWeek, int semester) {
+        this.cno = cno;
+        this.cName = cName;
+        this.tName = tName;
+        this.dName = dName;
+        this.year = year;
+        this.dayOfWeek = dayOfWeek;
+        this.time = time;
+        this.startWeek = startWeek;
+        this.endWeek = endWeek;
+        this.semester = semester;
     }
 }

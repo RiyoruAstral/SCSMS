@@ -31,6 +31,9 @@
                                             考试地点
                                         </th>
                                         <th width="12.5%">
+                                            考试时间
+                                        </th>
+                                        <th width="12.5%">
                                             学分
                                         </th>
                                         <th width="12.5%">
@@ -45,6 +48,14 @@
                                                 <td>${sc.CName}</td>
                                                 <td>${sc.TName}</td>
                                                 <td>${sc.DName}</td>
+                                                <td>
+                                                    第${sc.examWeek}周
+                                                    <c:forEach items="${CourseSchedules}" var="course">
+                                                        <c:if test="${sc.examTime == course.startTime}">
+                                                            ${course.sectionRange}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td>
                                                 <td>${sc.credit}</td>
                                                 <td>${sc.grade}</td>
                                             </tr>

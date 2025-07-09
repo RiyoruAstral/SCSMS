@@ -28,6 +28,9 @@
                 </a>
                 <div class="collapse" id="student-menu">
                     <ul class="nav flex-column sub-menu">
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/student/courseSchedule.jsp') ? 'active' : ''}">
+                            <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/ClassCourseServlet?action=loading&year=2025&semester=1&week=1">班级课表</a>
+                        </li>
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/student/courseSelection.jsp') ? 'active' : ''}">
                             <a class="nav-link  ${sessionScope.userType == 'teacher' ? 'disabled' : ''}" href="/CourseSelectionServlet?action=loading&dayOfWeek=0&startTime=0&year=2025&semester=1&title=null">选课</a>
                         </li>
@@ -51,14 +54,15 @@
                 </a>
                 <div class="collapse" id="teacher-menu">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/setCourse.jsp') ? 'active' : ''} ">
-                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/SetCourseServlet?action=loading&year=2025">我的课程</a>
-                        </li>
+
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/scheduleView.jsp') ? 'active' : ''} ">
                             <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/TeacherCourseServlet?action=loading&year=2025&semester=1&week=1">我的课表</a>
                         </li>
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/addCourse.jsp') ? 'active' : ''} ">
                             <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/AddCourseServlet?action=loading&title=null">添加课程</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/setCourse.jsp') ? 'active' : ''} ">
+                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/SetCourseServlet?action=loading&year=2025">课程评分</a>
                         </li>
                     </ul>
                 </div>

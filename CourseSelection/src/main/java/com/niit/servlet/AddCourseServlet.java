@@ -87,6 +87,8 @@ public class AddCourseServlet extends HttpServlet {
         int credit = Integer.parseInt(req.getParameter("credit"));
         String tname = req.getParameter("tname");
         int peopleNum = Integer.parseInt(req.getParameter("maxPeople"));
+        int examTime = Integer.parseInt(req.getParameter("examTime"));
+        int examWeek = Integer.parseInt(req.getParameter("examWeek"));
         String tno = new ServletUtil().getTnoByUsernameFromSession(req);
         //比对该教师的时间表
         List<TeacherCourse> teacherCourses = new TeacherCourseService().findTeacherCourseBySnoAndYear(tno, year);
@@ -98,7 +100,7 @@ public class AddCourseServlet extends HttpServlet {
             ){
                 String msg = "该时间点已有课程";
                 System.out.println(msg);
-                req.getSession().setAttribute("msg", msg);
+                req.getSession().setAttribute("addCourseMsg", msg);
                 resp.sendRedirect("/AddCourseServlet?action=loading&title=success");
                 return;
             }
@@ -116,7 +118,7 @@ public class AddCourseServlet extends HttpServlet {
             ){
                 String msg = "该时间点该教室已被占用!";
                 System.out.println(msg);
-                req.getSession().setAttribute("msg", msg);
+                req.getSession().setAttribute("addCourseMsg", msg);
                 resp.sendRedirect("/AddCourseServlet?action=loading&title=success");
                 return;
             }
@@ -131,7 +133,7 @@ public class AddCourseServlet extends HttpServlet {
         int num = Integer.parseInt(numStr) + 1;
         // 补全为3位数字，再拼接前缀"C"
         String cno = String.format("C%03d", num);// 如6→"C006"，10→"C010"
-        Course course = new Course(cno, name, year, week, time, startWeek, endWeek, credit, type, semester, 0, peopleNum);
+        Course course = new Course(cno, name, year, week, time, startWeek, endWeek, credit, type, semester, 0, peopleNum,examTime,examWeek);
         System.out.println(course);
         int i = new CourseService().insertCourse(course);
         System.out.println(i);
@@ -147,7 +149,7 @@ public class AddCourseServlet extends HttpServlet {
                     // 此处直接 redirect，不使用 forward
                     String msg = "创建成功";
                     System.out.println(msg);
-                    req.getSession().setAttribute("msg", msg);
+                    req.getSession().setAttribute("addCourseMsg", msg);
                     resp.sendRedirect("/AddCourseServlet?action=loading&title=success");
                     // 跳转后立即 return，避免执行后续代码
                     return;
@@ -157,7 +159,7 @@ public class AddCourseServlet extends HttpServlet {
         // 若上述分支未执行，最终执行一次 redirect
         String msg = "创建失败-未知原因";
         System.out.println(msg);
-        req.getSession().setAttribute("msg", msg);
+        req.getSession().setAttribute("addCourseMsg", msg);
         resp.sendRedirect("/AddCourseServlet?action=loading&title=success");
     }
 }

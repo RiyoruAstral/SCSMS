@@ -76,7 +76,7 @@
                                     确认更改密码
                                 </label>
                             </div>
-                            <h5 class="text-secondary">${msg}</h5>
+                            <h5 class="text-secondary">${userRePasswordMsg}</h5>
                             <button type="submit" class="btn btn-primary mr-2">提交</button>
                         </form>
                     </div>

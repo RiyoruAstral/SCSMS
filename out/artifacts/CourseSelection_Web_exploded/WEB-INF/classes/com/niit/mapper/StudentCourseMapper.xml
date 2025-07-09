@@ -34,7 +34,7 @@
 
     <select id="findStudentCourseBySnoAndYear" resultType="com.niit.pojo.StudentCourse">
         SELECT
-            s.sname, c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.credit,cs.grade
+            s.sname, c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.credit,cs.grade,c.exam_time,c.exam_week
         FROM
             students s
                 JOIN course_selection cs ON s.sno = cs.sno
@@ -93,5 +93,19 @@
             students s
                 JOIN course_selection cs ON s.sno = cs.sno
                 JOIN courses c ON cs.cno = c.cno
+    </select>
+    <select id="findCourseByClassIdYear" resultType="com.niit.pojo.StudentCourse">
+        SELECT
+            c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester
+        FROM
+            class_selection cs
+                JOIN courses c ON cs.cno = c.cno
+                JOIN teaching tch ON c.cno = tch.cno
+                JOIN teachers t ON tch.tno = t.tno
+                JOIN course_locations cl ON c.cno = cl.cno
+                JOIN locations l ON cl.dno = l.dno
+        WHERE
+            cs.class_id = #{classId}
+          AND c.year = #{year};
     </select>
 </mapper>

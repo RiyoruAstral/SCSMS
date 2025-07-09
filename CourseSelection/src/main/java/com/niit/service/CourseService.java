@@ -30,7 +30,9 @@ public class CourseService {
                 course.getType(),
                 course.getSemester(),
                 course.getSelectPeople(),
-                course.getTotalPeople()
+                course.getTotalPeople(),
+                course.getExamTime(),
+                course.getExamWeek()
         );
         if(i>0){
             service.commit();

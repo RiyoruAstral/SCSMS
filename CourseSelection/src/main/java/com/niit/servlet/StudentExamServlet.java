@@ -1,5 +1,6 @@
 package com.niit.servlet;
 
+import com.niit.pojo.CourseSchedule;
 import com.niit.pojo.StudentCourse;
 import com.niit.service.StudentCourseService;
 import com.niit.util.ServletUtil;
@@ -28,6 +29,11 @@ public class StudentExamServlet extends HttpServlet {
         List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndYear(sno, year);
         System.out.println(studentCourses);
         req.setAttribute("studentCourses",studentCourses);
+        //时间映射表
+        List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
+        System.out.println(courseSchedules);
+        req.setAttribute("CourseSchedules",courseSchedules);
+
         req.getRequestDispatcher("/student/exam.jsp").forward(req,resp);
 
     }

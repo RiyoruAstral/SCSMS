@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface StudentCourseMapper {
     List<StudentCourse> findStudentCourseBySnoAndYear(@Param("sno") String sno,@Param("year") int year);
+    List<StudentCourse> findCourseByClassIdYear(@Param("classId")int classId,@Param("year")int year);
+
     List<StudentCourse> findElectiveCourseBySnoDayTime(@Param("sno") String sno,@Param("dayOfWeek")int dayOfWeek,@Param("time")int time);
     List<StudentCourse> selectStudentCourseGrade();
     int countElectiveCourseBySno(@Param("sno")String sno);
