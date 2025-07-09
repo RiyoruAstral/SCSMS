@@ -11,7 +11,7 @@
 
     <select id="findTeacherCourseByTnoAndYear" resultType="com.niit.pojo.TeacherCourse">
         SELECT
-            t.tno,t.tname,c.cno,c.cname,l.dname,c.`year`,c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.total_people - c.select_people as remainPeople,c.total_people
+            t.tno,t.tname,c.cno,c.cname,l.dname,c.`year`,c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.total_people - c.select_people as remainPeople,c.total_people,c.type
         FROM
             teachers t
                 inner JOIN teaching tg on t.tno = tg.tno
