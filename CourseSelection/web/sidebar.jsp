@@ -54,14 +54,15 @@
                 </a>
                 <div class="collapse" id="teacher-menu">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/setCourse.jsp') ? 'active' : ''} ">
-                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/SetCourseServlet?action=loading&year=2025">我的课程</a>
-                        </li>
+
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/scheduleView.jsp') ? 'active' : ''} ">
                             <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/TeacherCourseServlet?action=loading&year=2025&semester=1&week=1">我的课表</a>
                         </li>
                         <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/addCourse.jsp') ? 'active' : ''} ">
                             <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/AddCourseServlet?action=loading&title=null">添加课程</a>
+                        </li>
+                        <li class="nav-item ${pageContext.request.requestURI.endsWith('/teacher/setCourse.jsp') ? 'active' : ''} ">
+                            <a class="nav-link ${sessionScope.userType == 'student' ? 'disabled' : ''}" href="/SetCourseServlet?action=loading&year=2025">课程评分</a>
                         </li>
                     </ul>
                 </div>

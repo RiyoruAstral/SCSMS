@@ -72,7 +72,7 @@
                             <input type="hidden" name="cno" value="${tc.cno}">
                             <input type="hidden" name="tno" value="${tc.tno}">
                             <input type="hidden" name="dname" value="${tc.DName}">
-                            <button type="submit" class="btn btn-danger btn-sm">删除该课程</button>
+                            <button type="submit" class="btn btn-danger btn-sm" <c:if test="${tc.type == '必修'}">style="display: none"</c:if>>删除该课程</button>
                         </form>
                     </div>
                 </div>
