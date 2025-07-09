@@ -79,6 +79,9 @@ public class StudentCourseService {
     public List<StudentCourse> selectStudentCourseGrade(){
         return mapper.selectStudentCourseGrade();
     };
+    public List<StudentCourse> findClassByClassIdYear(int classId, int year){
+        return mapper.findCourseByClassIdYear(classId,year);
+    }
     public List<StudentCourse> findStudentCourseBySnoAndYear(String sno,int year){return mapper.findStudentCourseBySnoAndYear(sno,year);};
     public List<StudentCourse> findElectiveCourseBySnoDayTime(String sno,int dayOfWeek,int time){return mapper.findElectiveCourseBySnoDayTime(sno,dayOfWeek
     ,time);}

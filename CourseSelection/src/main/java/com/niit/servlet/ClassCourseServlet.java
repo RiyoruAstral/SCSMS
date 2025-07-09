@@ -1,11 +1,10 @@
 package com.niit.servlet;
 
-import com.niit.pojo.Course;
 import com.niit.pojo.CourseSchedule;
 import com.niit.pojo.StudentCourse;
-import com.niit.service.ClassCourseService;
 import com.niit.service.ClassService;
 import com.niit.service.ClassStudentService;
+import com.niit.service.StudentCourseService;
 import com.niit.util.ServletUtil;
 
 import javax.servlet.ServletException;
@@ -77,13 +76,13 @@ public class ClassCourseServlet extends HttpServlet {
         System.out.println(className);
         req.setAttribute("ClassName", className);
         //从班级获取所有课程
-        List<StudentCourse> classCourses = new ClassCourseService().findClassByClassIdYear(classId,year);
+        List<StudentCourse> classCourses = new StudentCourseService().findClassByClassIdYear(classId,year);
         System.out.println(classCourses);
 
         List<StudentCourse> sendCC = new ArrayList<>();
 
         for(StudentCourse c : classCourses){
-            if(year == Integer.parseInt(c.getYear()) && semester == c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
+            if(year == Integer.parseInt(c.getYear()) && semester ==  c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
                 sendCC.add(c);
             }
         }

@@ -131,7 +131,7 @@ public class CourseSelectionServlet extends HttpServlet {
 
         for(StudentCourse sc : studentCourses){
             if(sc.getTime() == startTime && sc.getDayOfWeek() == dayOfWeek){
-                msg = "选课失败：已有该时间段的";
+                msg = "选课失败：已有该时间段的课程";
                 req.getSession().setAttribute("courseSelectionMsg", msg);
                 url = splitUrl(url,"title","error");
                 resp.sendRedirect(req.getContextPath() + url);
