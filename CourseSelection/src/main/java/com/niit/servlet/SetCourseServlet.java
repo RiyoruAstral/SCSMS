@@ -92,13 +92,13 @@ public class SetCourseServlet extends HttpServlet {
         if(i > 0){
             String msg = "提交成功";
             System.out.println(msg);
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("setCourseMsg", msg);
             resp.sendRedirect("/SetCourseServlet?action=loading&year="+year);
             return;
         }
         String msg = "提交失败";
         System.out.println(msg);
-        req.getSession().setAttribute("msg", msg);
+        req.getSession().setAttribute("setCourseMsg", msg);
         resp.sendRedirect("/SetCourseServlet?action=loading&year="+year);
     }
 
@@ -123,14 +123,14 @@ public class SetCourseServlet extends HttpServlet {
                     if(i3 > 0){
                         String msg = "删除成功";
                         System.out.println(msg);
-                        req.getSession().setAttribute("msg", msg);
+                        req.getSession().setAttribute("setCourseMsg", msg);
                         resp.sendRedirect("/SetCourseServlet?action=loading&year="+year);
                         return;
                     }
             }
             String msg = "删除失败";
             System.out.println(msg);
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("setCourseMsg", msg);
             resp.sendRedirect("/SetCourseServlet?action=loading&year="+year);
         }
 

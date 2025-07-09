@@ -77,7 +77,7 @@
                             </table>
 
 
-                                <h4 class="text-primary">${msg}</h4>
+                                <h4 class="text-primary">${courseSelectionMsg}</h4>
 
                         </form>
                     </div>

@@ -78,14 +78,14 @@ public class UserServlet extends HttpServlet {
 //            if(i > 0){
                 String msg = "更改密码成功";
                 System.out.println(msg);
-                req.getSession().setAttribute("msg", msg);
+                req.getSession().setAttribute("userRePasswordMsg", msg);
                 resp.sendRedirect("/UserServlet?action=loading");
                 return;
 //            }
         }
         String msg = "更改密码失败";
         System.out.println(msg);
-        req.getSession().setAttribute("msg", msg);
+        req.getSession().setAttribute("userRePasswordMsg", msg);
         resp.sendRedirect("/UserServlet?action=loading");
     }
 }

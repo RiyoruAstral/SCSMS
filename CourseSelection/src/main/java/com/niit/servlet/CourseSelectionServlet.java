@@ -119,7 +119,7 @@ public class CourseSelectionServlet extends HttpServlet {
         // 1. 校验参数合法性
         if (sno == null || sno.trim().isEmpty() || cno == null || cno.trim().isEmpty()) {
             msg = "选课失败：学生编号或课程编号不能为空";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
@@ -132,7 +132,7 @@ public class CourseSelectionServlet extends HttpServlet {
         for(StudentCourse sc : studentCourses){
             if(sc.getTime() == startTime && sc.getDayOfWeek() == dayOfWeek){
                 msg = "选课失败：已有该时间段的";
-                req.getSession().setAttribute("msg", msg);
+                req.getSession().setAttribute("courseSelectionMsg", msg);
                 url = splitUrl(url,"title","error");
                 resp.sendRedirect(req.getContextPath() + url);
                 return;
@@ -143,7 +143,7 @@ public class CourseSelectionServlet extends HttpServlet {
         if (i1 <= 0) {
             // 插入失败：可能原因（重复选课、外键不存在、数据库异常）
             msg = "选课失败：该课程可能已选或课程信息无效";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
@@ -157,14 +157,14 @@ public class CourseSelectionServlet extends HttpServlet {
             new StudentCourseService().dropSelectionCourse(sno, cno);
             new StudentCourseService().deleteSelectionCourse(cno); // 假设存在该方法（若不存在可忽略，仅提示错误）
             msg = "选课失败：课程人数更新异常，请重试";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
         }
 
         System.out.println("选课成功");
-        req.getSession().setAttribute("msg", "选课成功");
+        req.getSession().setAttribute("courseSelectionMsg", "选课成功");
         url = splitUrl(url,"title","success");
         resp.sendRedirect(req.getContextPath() + url);
     }
@@ -193,7 +193,7 @@ public class CourseSelectionServlet extends HttpServlet {
         // 1. 校验参数合法性
         if (sno == null || sno.trim().isEmpty() || cno == null || cno.trim().isEmpty()) {
             msg = "退课失败：学生编号或课程编号不能为空";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
@@ -204,7 +204,7 @@ public class CourseSelectionServlet extends HttpServlet {
         if (i1 <= 0) {
             // 插入失败：可能原因（重复选课、外键不存在、数据库异常）
             msg = "退课失败：该课程可能未选或课程信息无效";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
@@ -217,14 +217,14 @@ public class CourseSelectionServlet extends HttpServlet {
             new StudentCourseService().updateSelectionCourse(cno);
             new StudentCourseService().insertSelectionCourse(sno, cno);
             msg = "退课失败：课程人数更新异常，请重试";
-            req.getSession().setAttribute("msg", msg);
+            req.getSession().setAttribute("courseSelectionMsg", msg);
             url = splitUrl(url,"title","error");
             resp.sendRedirect(req.getContextPath() + url);
             return;
         }
 
         System.out.println("退课成功");
-        req.getSession().setAttribute("msg", "退课成功");
+        req.getSession().setAttribute("courseSelectionMsg", "退课成功");
         url = splitUrl(url,"title","success");
         resp.sendRedirect(req.getContextPath() + url);
     }

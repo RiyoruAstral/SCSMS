@@ -34,7 +34,7 @@
 
     <select id="findStudentCourseBySnoAndYear" resultType="com.niit.pojo.StudentCourse">
         SELECT
-            s.sname, c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.credit,cs.grade
+            s.sname, c.cno, c.cname, t.tname, l.dname, c.year, c.dayOfWeek,c.time,c.startWeek,c.endWeek,c.semester,c.credit,cs.grade,c.exam_time,c.exam_week
         FROM
             students s
                 JOIN course_selection cs ON s.sno = cs.sno

@@ -24,7 +24,8 @@ public interface CourseMapper {
             @Param("type") String type,
             @Param("semester") int semester,
             @Param("selectPeople") int selectPeople,
-            @Param("totalPeople") int totalPeople
-
+            @Param("totalPeople") int totalPeople,
+            @Param("examTime") int examTime,
+            @Param("examWeek") int examWeek
     );
 }

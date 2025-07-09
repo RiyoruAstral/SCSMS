@@ -5,9 +5,9 @@
 <mapper namespace="com.niit.mapper.CourseMapper">
     <insert id="insertCourse" parameterType="Course">
         INSERT INTO courses
-        (cno, cName, year, dayOfWeek, time, startWeek, endWeek, credit, type, semester, select_people, total_people)
+        (cno, cName, year, dayOfWeek, time, startWeek, endWeek, credit, type, semester, select_people, total_people,exam_time,exam_week)
         VALUES
-            (#{cno}, #{cName}, #{year}, #{dayOfWeek}, #{time}, #{startWeek}, #{endWeek}, #{credit}, #{type}, #{semester}, #{selectPeople}, #{totalPeople})
+            (#{cno}, #{cName}, #{year}, #{dayOfWeek}, #{time}, #{startWeek}, #{endWeek}, #{credit}, #{type}, #{semester}, #{selectPeople}, #{totalPeople},#{examTime},#{examWeek})
     </insert>
     <delete id="deleteCourse">
         DELETE FROM courses

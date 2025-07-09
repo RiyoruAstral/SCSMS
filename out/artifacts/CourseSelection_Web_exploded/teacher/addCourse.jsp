@@ -16,7 +16,7 @@
                         <h4 class="card-title">添加课程</h4>
                         <p class="card-description">
                             <c:if test="${title != 'null'}">
-                                ${msg}
+                                ${addCourseMsg}
                             </c:if>
 
                         </p>
@@ -100,12 +100,32 @@
                                     <option value="10">10</option>
                                     <option value="15">15</option>
                                     <option value="20">20</option>
+                                    <option value="25">25</option>
                                     <option value="30">30</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="credit">课程学分</label>
                                 <input type="text" class="form-control" id="credit" placeholder="credit" name="credit" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label for="credit">考试周</label>
+                                <select class="form-control" id="examWeek" name="examWeek">
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="credit">考试时间</label>
+                                <select class="form-control" id="examTime" name="examTime">
+                                    <option value="1">第一节 - 第二节</option>
+                                    <option value="2">第三节 - 第四节</option>
+                                    <option value="3">第五节 - 第六节</option>
+                                    <option value="4">第七节 - 第八节</option>
+                                    <option value="5">第九节 - 第十节</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="tname">授课人</label>

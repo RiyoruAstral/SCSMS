@@ -22,4 +22,19 @@ public class Course {
     private int semester;
     private int selectPeople;
     private int totalPeople;
+    private int examTime;
+    private int examWeek;
+
+
+    public Course(String cName, int dayOfType, int time, int startWeek, int endWeek, int semester, int year) {
+        this.cName = cName;
+        this.dayOfType = dayOfType;
+        this.time = time;
+        this.startWeek = startWeek;
+        this.endWeek = endWeek;
+        this.semester = semester;
+        this.year = year;
+    }
+
+
 }

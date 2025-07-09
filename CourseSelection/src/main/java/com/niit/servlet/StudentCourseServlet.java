@@ -90,9 +90,7 @@ public class StudentCourseServlet extends HttpServlet {
             System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
             System.out.println(sendSC);
 
-
             req.setAttribute("StudentCourses", sendSC);
-
 
             req.getRequestDispatcher("/student/scheduleView.jsp").forward(req,resp);
             return;

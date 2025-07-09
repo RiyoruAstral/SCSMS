@@ -10,7 +10,7 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="card-title text-primary">${msg}</h4>
+                <h4 class="card-title text-primary">${setCourseMsg}</h4>
             </div>
             <c:forEach items="${teacherCourses}" var="tc">
             <div class="col-lg-12 grid-margin stretch-card">
