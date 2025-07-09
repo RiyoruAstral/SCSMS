@@ -1,6 +1,5 @@
 package com.niit.servlet;
 
-import com.niit.pojo.CourseLocation;
 import com.niit.pojo.StudentCourse;
 import com.niit.pojo.TeacherCourse;
 import com.niit.service.CourseLocationService;
@@ -69,7 +68,7 @@ public class SetCourseServlet extends HttpServlet {
 
     private void loading (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //获取当前tno的所有课程
-        String tno = new ServletUtil().getTnoByUsernameFromSeesion(req);
+        String tno = new ServletUtil().getTnoByUsernameFromSession(req);
 
         List<TeacherCourse> teacherCourses = new TeacherCourseService().findTeacherCourseBySnoAndYear(tno, year);
         System.out.println(teacherCourses);

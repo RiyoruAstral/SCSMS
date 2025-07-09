@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>学号</label>
+                            <label>学号/工号</label>
                             <div class="input-group">
                                 <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
@@ -34,15 +34,14 @@
                       </span>
                                 </div>
                                 <input type="text" class="form-control form-control-lg border-left-0"
-                                       placeholder="StudentID" name="studentId" required="required">
+                                       placeholder="StudentID/TeacherID" value="${param.otherId} name="userId" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>所属系</label>
-                            <select class="form-control form-control-lg" name="department" id="exampleFormControlSelect2" required="required">
-                                <option value="1">计算机系</option>
-                                <option value="2">电子系</option>
-                                <option value="3">自动化系</option>
+                            <label>身份</label>
+                            <select class="form-control form-control-lg" name="userType" id="exampleFormControlSelect2" required="required">
+                                <option value="student">学生</option>
+                                <option value="teacher">老师</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -65,6 +64,7 @@
                                 </label>
                             </div>
                         </div>
+                        <h5 class="text-secondary">${registerMsg}</h5>
                         <div class="mt-3">
                             <input type="submit" value="SIGN UP" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                         </div>

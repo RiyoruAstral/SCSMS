@@ -10,21 +10,9 @@
                     <div class="brand-logo">
                         <img src="/images/logo.svg" alt="logo">
                     </div>
-                    <h4>New here?</h4>
+                    <h4>Forgot Password?</h4>
                     <h6 class="font-weight-light">Join us today! It takes only few steps</h6>
-                    <form class="pt-3" role="form" action="/RegisterServlet" method="post">
-                        <div class="form-group">
-                            <label>用户名</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend bg-transparent">
-                      <span class="input-group-text bg-transparent border-right-0">
-                        <i class="mdi mdi-account-outline text-primary"></i>
-                      </span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg border-left-0"
-                                       placeholder="Username" value="${param.username}" name="username" required="required">
-                            </div>
-                        </div>
+                    <form class="pt-3" role="form" action="/ForgotPasswordServlet" method="post">
                         <div class="form-group">
                             <label>学号/工号</label>
                             <div class="input-group">
@@ -34,18 +22,11 @@
                       </span>
                                 </div>
                                 <input type="text" class="form-control form-control-lg border-left-0"
-                                       placeholder="StudentID/TeacherID" value="${param.otherId} name="userId" required="required">
+                                       placeholder="StudentID/TeacherID" name="userId" required="required">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>身份</label>
-                            <select class="form-control form-control-lg" name="userType" id="exampleFormControlSelect2" required="required">
-                                <option value="student">学生</option>
-                                <option value="teacher">老师</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>密码</label>
+                            <label>新密码</label>
                             <div class="input-group">
                                 <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
@@ -53,7 +34,19 @@
                       </span>
                                 </div>
                                 <input type="password" class="form-control form-control-lg border-left-0"
-                                       id="exampleInputPassword" value="${param.password}" name="password" placeholder="Password" required="required">
+                                       name="password" placeholder="Password" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>请再次输一遍新密码</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend bg-transparent">
+                      <span class="input-group-text bg-transparent border-right-0">
+                        <i class="mdi mdi-lock-outline text-primary"></i>
+                      </span>
+                                </div>
+                                <input type="password" class="form-control form-control-lg border-left-0"
+                                       name="rePassword" placeholder="RePassword" required="required">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -64,9 +57,9 @@
                                 </label>
                             </div>
                         </div>
-                        <h5 class="text-secondary">${registerMsg}</h5>
+                        <h5 class="text-secondary">${forgotMsg}</h5>
                         <div class="mt-3">
-                            <input type="submit" value="SIGN UP" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                            <input type="submit" value="Confirm" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                         </div>
                         <div class="text-center mt-4 font-weight-light">
                             Already have an account? <a href="login.jsp" class="text-primary">Login</a>

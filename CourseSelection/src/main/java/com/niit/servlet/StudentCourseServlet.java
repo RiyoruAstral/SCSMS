@@ -56,8 +56,8 @@ public class StudentCourseServlet extends HttpServlet {
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         //用户信息
-        String sno = new ServletUtil().getSnoByUsernameFromSeesion(req);
-        String userType = new ServletUtil().getUserTypeFromSeesion(req);
+        String sno = new ServletUtil().getSnoByUsernameFromSession(req);
+        String userType = new ServletUtil().getUserTypeFromSession(req);
         System.out.println(sno);
         System.out.println(userType);
         //时间信息
