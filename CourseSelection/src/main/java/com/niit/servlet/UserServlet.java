@@ -60,28 +60,29 @@ public class UserServlet extends HttpServlet {
     }
 
     private void loading(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //获取当前user信息
         User user = new ServletUtil().findUserFromSession(req);
+        //发过去
         System.out.println(user);
         req.setAttribute("user",user);
-
         req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //获取两次密码
         String password = req.getParameter("Password");
         String rePassword = req.getParameter("rePassword");
         System.out.println(password + "  " + rePassword);
+        //比对密码
         if(Objects.equals(password, rePassword)){
             User user = new ServletUtil().findUserFromSession(req);
             int userId = user.getUserId();
-            int i = new UserService().updateUserPassword(userId, password);
-//            if(i > 0){
-                String msg = "更改密码成功";
-                System.out.println(msg);
-                req.getSession().setAttribute("userRePasswordMsg", msg);
-                resp.sendRedirect("/UserServlet?action=loading");
-                return;
-//            }
+            new UserService().updateUserPassword(userId, password);
+            String msg = "更改密码成功";
+            System.out.println(msg);
+            req.getSession().setAttribute("userRePasswordMsg", msg);
+            resp.sendRedirect("/UserServlet?action=loading");
+            return;
         }
         String msg = "更改密码失败";
         System.out.println(msg);

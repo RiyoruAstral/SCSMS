@@ -82,13 +82,16 @@ public class SetCourseServlet extends HttpServlet {
         req.getRequestDispatcher("/teacher/setCourse.jsp").forward(req, resp);
     }
 
+    //为对应课程对应学生设置成绩
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //获取学号、课程号、对应修改过的成绩
         String sno = req.getParameter("sno");
         String cno = req.getParameter("cno");
         int newGrade = Integer.parseInt(req.getParameter("newGrade"));
 
         System.out.println(newGrade);
         int i = new StudentCourseService().updateGradeBySnoCno(sno, cno, newGrade);
+        //是否提交成功
         if(i > 0){
             String msg = "提交成功";
             System.out.println(msg);
@@ -128,16 +131,11 @@ public class SetCourseServlet extends HttpServlet {
                         return;
                     }
             }
+            //出现其他问题
             String msg = "删除失败";
             System.out.println(msg);
             req.getSession().setAttribute("setCourseMsg", msg);
             resp.sendRedirect("/SetCourseServlet?action=loading&year="+year);
         }
-
-
-
-
-
     }
-
 }

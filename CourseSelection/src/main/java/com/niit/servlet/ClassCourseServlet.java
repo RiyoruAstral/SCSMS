@@ -80,7 +80,7 @@ public class ClassCourseServlet extends HttpServlet {
         System.out.println(classCourses);
 
         List<StudentCourse> sendCC = new ArrayList<>();
-
+        //筛选条件
         for(StudentCourse c : classCourses){
             if(year == Integer.parseInt(c.getYear()) && semester ==  c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
                 sendCC.add(c);

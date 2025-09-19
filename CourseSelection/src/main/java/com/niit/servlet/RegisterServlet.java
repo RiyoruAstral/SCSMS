@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @WebServlet("/RegisterServlet")
@@ -42,7 +44,7 @@ public class RegisterServlet extends HttpServlet {
 
         int maxUserId = new UserService().findMaxUserId();
         maxUserId += 1;
-        //不存在问题
+        //工号不存在
         if(Objects.equals(userType, "student")){
             Student student = new StudentService().findStudentBySno(otherId);
             System.out.println(student);
@@ -83,6 +85,7 @@ public class RegisterServlet extends HttpServlet {
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
             return;
         }
+        //未知原因
         new UserService().insertUser(maxUserId,username,password,userType,otherId);
         User user1 = new UserService().findUserByUserId(maxUserId);
         System.out.println(user1);
@@ -93,11 +96,14 @@ public class RegisterServlet extends HttpServlet {
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
             return;
         }
+
         msg="注册成功";
         System.out.println(msg);
         req.getSession().setAttribute("loginMsg",msg);
         resp.sendRedirect("/login.jsp?username="+user1.getUsername()+"&password="+user1.getPassword());
         System.out.println("注册成功!用户"+user1);
+        System.out.println("1111");
         return;
+
     }
 }

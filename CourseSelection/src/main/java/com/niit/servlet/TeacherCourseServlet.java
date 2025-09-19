@@ -81,20 +81,17 @@ public class TeacherCourseServlet extends HttpServlet {
                 resp.sendRedirect("/index.jsp");
                 return;
             }
-
+            //筛选学年、学期、起始周和结束周
             for(TeacherCourse c : teacherCourses){
                 if(year == Integer.parseInt(c.getYear()) && semester == c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
                     sendTC.add(c);
                 }
             }
-
-            System.out.println("添加到session的课程数量: " + sendTC.size()); // 调试用
+            //发送过去
+            System.out.println("课程数量: " + sendTC.size());
             System.out.println(sendTC);
-
-
             req.setAttribute("TeacherCourses", sendTC);
-
-
+            //重定向
             req.getRequestDispatcher("/teacher/scheduleView.jsp").forward(req,resp);
             return;
         }

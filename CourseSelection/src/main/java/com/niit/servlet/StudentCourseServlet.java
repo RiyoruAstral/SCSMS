@@ -69,32 +69,33 @@ public class StudentCourseServlet extends HttpServlet {
         System.out.println(week);
         // 初始化sendSC列表
         List<StudentCourse> sendSC = new ArrayList<>();
-        //如果当前是学生
+        //如果当前是学生 一般都是
         if (Objects.equals(userType, "student")) {
             //获取时间映射表
             List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
             req.setAttribute("CourseSchedules",courseSchedules);
             //获取课程表
             List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndYear(sno,year);
+            //获取不到课程表直接进去
             if(studentCourses == null){
-                resp.sendRedirect("/index.jsp");
+                resp.sendRedirect("/student/scheduleView.jsp");
                 return;
             }
-
+            //判断对应条件（学年、学期、起始周、结束周）
             for(StudentCourse c : studentCourses){
                 if(year == Integer.parseInt(c.getYear()) && semester == c.getSemester() && week <= c.getEndWeek() && week >= c.getStartWeek()){
                     sendSC.add(c);
                 }
             }
-
-            System.out.println("添加到session的课程数量: " + sendSC.size()); // 调试用
+            //发送过去
+            System.out.println("课程数量: " + sendSC.size());
             System.out.println(sendSC);
-
             req.setAttribute("StudentCourses", sendSC);
-
+            //重定向到课表
             req.getRequestDispatcher("/student/scheduleView.jsp").forward(req,resp);
             return;
         }
+        //直接跳转
         resp.sendRedirect("/index.jsp");
     }
 }

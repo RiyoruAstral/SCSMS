@@ -24,8 +24,10 @@ public class StudentExamServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //获取登录用户及当前学年
         String sno = new ServletUtil().getSnoByUsernameFromSession(req);
         year = Integer.parseInt(req.getParameter("year"));
+        //获取学年表
         List<StudentCourse> studentCourses = new StudentCourseService().findStudentCourseBySnoAndYear(sno, year);
         System.out.println(studentCourses);
         req.setAttribute("studentCourses",studentCourses);
@@ -33,7 +35,7 @@ public class StudentExamServlet extends HttpServlet {
         List<CourseSchedule> courseSchedules = new ServletUtil().createCourseSchedules();
         System.out.println(courseSchedules);
         req.setAttribute("CourseSchedules",courseSchedules);
-
+        //重定向
         req.getRequestDispatcher("/student/exam.jsp").forward(req,resp);
 
     }

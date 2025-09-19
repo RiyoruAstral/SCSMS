@@ -146,7 +146,6 @@ public class AddCourseServlet extends HttpServlet {
                 int i2 = new CourseLocationService().insertLocation(cno, location);
                 if(i2 > 0){
                     System.out.println("位置关联成功");
-                    // 此处直接 redirect，不使用 forward
                     String msg = "创建成功";
                     System.out.println(msg);
                     req.getSession().setAttribute("addCourseMsg", msg);
